@@ -1,41 +1,24 @@
-import { useState } from 'react';
-import greenthumblogo from './greenthumblogo.png';
-import './App.css';
+import { useState } from 'react'
+import './App.css'
 
 function App() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = () => {
-    // You can implement login logic here, such as sending a request to your backend server
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // For now, let's just log the email and password to the console
-  };
+  const [count, setCount] = useState(0)
 
   return (
-    <div className="app">
-      <img src={greenthumblogo} alt="Green Thumb Logo" className="logo" />
-      <h1 className='title'>Green Thumb Landscaping</h1>
+    <>
+      <div>
+
+  </div>
+      <h1 className='Title'>Green Thumb Landscaping</h1>
       <div className="card">
-        <input
-          type="email"
-          className="input-field"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          className="input-field"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button className='login' onClick={handleLogin}>Login</button>
+        <input type="email" name="" id="" />
+        <input type="Password" />
+        <button className='login'>Login
+        </button>
+
       </div>
-    </div>
-  );
+    </>
+  )
 }
 
-export default App;
+export default App
