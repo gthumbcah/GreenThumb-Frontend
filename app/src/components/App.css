@@ -6,7 +6,7 @@
 }
 
 .title {
-  color: rgb(0, 134, 40);
+  color: rgb(255, 255, 255);
 }
 
 .login {
@@ -25,7 +25,7 @@
 }
 
 .login:hover {
-  background-color: #45a049; /* Darker Green */
+  background-color: #fcfffc; /* Darker Green */
 }
 
 .input-field {
