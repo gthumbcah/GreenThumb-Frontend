@@ -9,7 +9,7 @@ nav {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #333;
+  background-color: #053600;
   z-index: 999; 
 }
 
@@ -28,11 +28,12 @@ nav li {
 nav a {
   text-decoration: none;
   color: #fff;
-  padding: 10px;
+  padding: 1px;
+  text-align: center;
 }
 
 nav a:hover {
-  background-color: #555;
+  background-color: #00411d;
 }
 
 #root {

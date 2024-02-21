@@ -5,6 +5,7 @@ import Home from './Home.jsx';
 import Calendar from './Calendar.jsx';
 import Admin from './Admin.jsx';
 import NewJob from './NewJob.jsx';
+import Login from './Login.jsx';
 import Navbar from './Navbar.jsx'; // Import Navbar component
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/Calendar" element={<Calendar />} />
           <Route path="/NewJob" element={<NewJob />} />
           <Route path="/Admin" element={<Admin />} />
+          <Route path ="/Login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </>
