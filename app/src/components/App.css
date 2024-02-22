@@ -10,7 +10,7 @@ nav {
   left: 0;
   width: 100%;
   background-color: #053600;
-  z-index: 999; 
+  z-index: 999;
 }
 
 nav ul {
@@ -36,11 +36,26 @@ nav a:hover {
   background-color: #00411d;
 }
 
+/* Responsive styles */
+@media only screen and (max-width: 768px) {
+  nav {
+    position: relative; /* Change to relative positioning */
+  }
+
+  nav ul {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+  }
+
+  nav li {
+    margin-right: 0; /* Remove right margin */
+    margin-bottom: 10px; /* Add bottom margin */
+  }
+}
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  margin: 0; /* Remove margin */
+  padding: 0; /* Remove padding */
 }
 
 .title {
