@@ -23,9 +23,9 @@
   color: black; /* Change to the desired hover color */
 }
 
-/* Hide the links inside the navigation menu by default */
+/* Show the links inside the navigation menu by default */
 .topnav #myLinks {
-  display: none;
+  display: block;
   text-align: center;
   margin-top: 0.9rem;
 }
