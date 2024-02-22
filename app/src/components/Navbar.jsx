@@ -4,10 +4,12 @@ import './Navbar.css';
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const [isRotated, setIsRotated] = useState(false);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
     toggleLinks(); // Toggle links visibility
+    setIsRotated(!isRotated); // Toggle rotation
   };
 
   const toggleLinks = () => {
@@ -29,8 +31,8 @@ const Navbar = () => {
         <Link to="/Admin" onClick={toggleMenu}>Admin</Link>
         <Link to="/Login" onClick={toggleMenu}>Login</Link>
       </div>
-      <button className={`icon ${showMenu ? 'close' : ''}`} onClick={toggleMenu}>
-        {showMenu ? '✕' : '☰'} {/* Toggle between X and hamburger icon */}
+      <button className={`icon ${isRotated ? 'close' : ''}`} onClick={toggleMenu}>
+        {showMenu ? '✕' : '☰'}
       </button>
     </div>
   );
