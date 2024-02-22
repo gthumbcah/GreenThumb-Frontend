@@ -1,41 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Navbar.css'; 
+import './Navbar.css';
 
 const Navbar = () => {
-  const [showMenu, setShowMenu] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setShowMenu(false);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  const [showMenu, setShowMenu] = useState(true);
+  const [isRotated, setIsRotated] = useState(false);
 
   const toggleMenu = () => {
-    setShowMenu(!showMenu);
+    toggleLinks(); // Toggle links visibility
+    setIsRotated(!isRotated); // Toggle rotation
+  };
+
+  const toggleLinks = () => {
+    setShowMenu(!showMenu); // Toggle menu visibility
   };
 
   return (
-    <nav className="navbar">
-      <div className="menu-icon" onClick={toggleMenu}>
-        <i className="fas fa-bars"></i> {/* Default hamburger icon */}
+    <div className="topnav">
+      <Link to="/" className="active">Logo</Link>
+      <div id="myLinks" className={showMenu ? 'show' : ''}>
+        <Link to="/Home">Home</Link>
+        <Link to="/Calendar">Calendar</Link>
+        <Link to="/NewJob">New Job</Link>
+        <Link to="/Admin">Admin</Link>
+        <Link to="/Login">Login</Link>
       </div>
-      <ul className={showMenu ? 'menu-active' : 'menu-hidden'}>
-        <li><Link to="/Home" onClick={toggleMenu}>Home</Link></li>
-        <li><Link to="/Calendar" onClick={toggleMenu}>Calendar</Link></li>
-        <li><Link to="/NewJob" onClick={toggleMenu}>New Job</Link></li>
-        <li><Link to="/Admin" onClick={toggleMenu}>Admin</Link></li>
-        <li><Link to="/Login" onClick={toggleMenu}>Login</Link></li>
-      </ul>
-    </nav>
+      <button className={`icon ${isRotated ? 'close' : ''}`} onClick={toggleMenu}>
+        {showMenu ? '✕' : '☰'}
+      </button>
+    </div>
   );
 };
 

@@ -1,42 +1,89 @@
-/* .navbar {
-    background-color: #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
+/* Style the navigation menu */
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* Style navigation menu links */
+.topnav a {
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change link color on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black; /* Change to the desired hover color */
+}
+
+/* Show the links inside the navigation menu by default */
+.topnav #myLinks {
+  display: block;
+  text-align: center;
+  margin-top: 0.9rem;
+}
+
+/* Style the hamburger menu */
+.topnav button.icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: white;
+  display: none; /* Initially hide the hamburger icon on larger screens */
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/* Add a grey background color on mouse-over */
+.topnav button.icon:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Style the close icon */
+.topnav button.icon.close {
+  transform: rotate(90deg); /* Rotate close icon */
+}
+
+/* Style the active link (or home/logo) */
+.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+/* Show the links inside the navigation menu when the hamburger icon is clicked */
+.topnav.show #myLinks {
+  display: block;
+}
+
+/* Responsive layout for smaller screens */
+@media screen and (max-width: 768px) {
+  .topnav {
+    justify-content: space-between; /* Move the logo and hamburger icon to opposite ends */
+    padding: 10px; /* Add some padding to the topnav */
   }
-  
-  .menu-icon {
-    cursor: pointer;
-    display: none; 
-   }
-  
-  .menu-icon i {
-    font-size: 1.5rem;
-    color: #fff;
-  }
-  
-  .menu-active {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 100%;
-    left: 0;
+
+  .topnav #myLinks {
+    position: fixed;
     width: 100%;
+    top: 56px; /* Adjust the top position to accommodate the fixed topnav */
     background-color: #333;
+    z-index: 999;
+    overflow-y: auto; /* Enable vertical scrolling for small screens */
+    max-height: calc(100vh - 56px); /* Limit the height to viewport height - topnav height */
   }
-  
-  .menu-active li {
-    margin: 1rem 0;
+
+  .topnav button.icon {
+    display: block; /* Show the hamburger icon on smaller screens */
+    position: relative; /* Change position to relative */
   }
-  
-  @media (max-width: 768px) {
-    .menu-icon {
-      display:inline-block;
-    }
-  
- .menu-hidden {
-      display: none;
-    }
-  }  */
+}

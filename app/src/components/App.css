@@ -4,43 +4,48 @@ body {
   position: relative; 
 }
 
-nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #053600;
-  z-index: 999; 
-}
-
-nav ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  justify-content: flex-start;
-}
-
-nav li {
-  margin-right: 20px;
-}
-
-nav a {
-  text-decoration: none;
-  color: #fff;
-  padding: 1px;
+h1 {
   text-align: center;
 }
 
-nav a:hover {
-  background-color: #00411d;
+h2 {
+  text-align: center;
 }
+
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 50vh; /* Set the height of the container to 100% of the viewport height */
+  justify-content: center;
+  text-align: center; /* Center the contents horizontally */
+}
+
+.react-calendar {
+  max-width: 90%; /* Set maximum width for the calendar */
+  max-height: 90%; /* Set maximum height for the calendar */
+  margin: 0 auto; /* Center the calendar horizontally */
+}
+/* Responsive styles */
+@media only screen and (max-width: 768px) {
+  nav {
+    position: relative; /* Change to relative positioning */
+  }
+
+  nav ul {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+  }
+
+  nav li {
+    margin-right: 0; /* Remove right margin */
+    margin-bottom: 10px; /* Add bottom margin */
+  }
+} */
 
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  margin: 0; /* Remove margin */
+  padding: 0; /* Remove padding */
 }
 
 .title {
