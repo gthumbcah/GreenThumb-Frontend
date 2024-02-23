@@ -7,6 +7,7 @@ import Admin from './Admin.jsx';
 import NewJob from './NewJob.jsx';
 import Login from './Login.jsx';
 import Navbar from './Navbar.jsx'; // Import Navbar component
+import CreateUser from './CreateUser.jsx'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/NewJob" element={<NewJob />} />
           <Route path="/Admin" element={<Admin />} />
           <Route path ="/Login" element={<Login />} />
+          <Route path ="/Create" element={<CreateUser />} />
         </Routes>
       </BrowserRouter>
     </>
