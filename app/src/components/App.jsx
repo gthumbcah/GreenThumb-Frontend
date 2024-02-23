@@ -42,14 +42,16 @@ function App() {
           {!isLoggedIn && <Route path="/" element={<Login onLogin={handleLogin} />} />}
           {/* Render protected routes if user is authenticated */}
           {isLoggedIn && (
-            <>
+             <>
               <Route path="/" element={<Navigate to="/calendar" />} />
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/newjob" element={<NewJob />} />
-              {isAdmin && <Route path="/Admin" element={<Admin />} />}
+              {/* {isAdmin && <Route path="/Admin" element={<Admin />} />} */}
+              <Route path="/admin" element={<Admin />} />
               {/* the above is breaking the admin route when {} and isAdmin removed it workes */}
-              <Route path ="/Admin/Create" element={<CreateUser />} />
-              <Route path ="/EditEmployee3" element={<EditEmployee />} />
+              <Route path ="/Admin/Create" element={<CreateUser />} /> 
+              <Route path ="/Edit/:id" element={<EditEmployee />} /> {/* neeed to use params/ Higher order componet to control id */}
+              <Route path='*' element={<h3>Page Not Found</h3>} />
             </>
           )}
         </Routes>
