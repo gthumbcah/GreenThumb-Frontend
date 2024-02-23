@@ -40,13 +40,6 @@ function App() {
       <h1>Green Thumb Landscaping</h1>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Calendar" element={<Calendar />} />
-          <Route path="/NewJob" element={<NewJob />} />
-          <Route path="/Admin" element={<Admin />} />
-          <Route path ="/Login" element={<Login />} />
-          <Route path ="/Admin/Create" element={<CreateUser />} />
-          <Route path ="/EditEmployee3" element={<EditEmployee />} />
           {/* Render login page if user is not authenticated */}
           {!isLoggedIn && <Route path="/" element={<Login onLogin={handleLogin} />} />}
           {/* Render protected routes if user is authenticated */}
