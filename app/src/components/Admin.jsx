@@ -11,11 +11,11 @@ const Admin = () => {
       <ul>
         {employeeList.map((employee, index) => (
           <ul key={index}>
-            <Link to={`/${employee}`} >{employee}</Link>
+            <Link to={`/edit${employee}`} >{employee}</Link>
           </ul>
         ))}
       </ul>
-      <div><button type="Link"><Link to={`/create`}>Create Employee</Link></button></div>
+      <div><button type="Link"><Link to={`/Admin/create`}>Create Employee</Link></button></div>
     </div>
   )
 }
