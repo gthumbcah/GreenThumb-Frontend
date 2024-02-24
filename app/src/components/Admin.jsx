@@ -29,7 +29,7 @@ const Admin = () => {
     setConfirmation(true)      
   })
 
-  const handleConfirmSubmit = (id) => {
+  const handleConfirmSubmit = () => {
     fetch(`${API_BASE_URL}/users/${deleteEmployeeId}`,{
       method: 'DELETE',
       headers: {
