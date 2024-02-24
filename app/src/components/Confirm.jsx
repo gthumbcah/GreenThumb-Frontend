@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Confirm = () => {
+const confirm = ({ onConfirm, onCancel }) => {
 
 
   return (
@@ -18,4 +18,4 @@ const Confirm = () => {
   )
 }
 
-export default Confirm
+export default confirm

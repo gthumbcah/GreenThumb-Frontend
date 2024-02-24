@@ -50,18 +50,10 @@ const editUser = () => {
 
     const handleCancelSubmit = () => {
         setConfirmation(false)
-    }
-    
+    }    
 
     return (
         <>
-            {confirmation && (
-                <Confirm
-                message="Are you sure you want to update the account details?"
-                onConfirm={handleConfirmSubmit}
-                onCancel={handleCancelSubmit}
-                />
-            )}
             <form onSubmit={handleSubmit}>
                 <label>{employee.name}:
                     <input 
@@ -96,7 +88,14 @@ const editUser = () => {
                 
                 <button type="submit">Update Account Details</button>
                 
-            </form>            
+            </form>
+            {confirmation && (
+                <Confirm
+                message="Are you sure you want to update the account details?"
+                onConfirm={handleConfirmSubmit}
+                onCancel={handleCancelSubmit}
+                />
+            )}          
         </>
     )
   }

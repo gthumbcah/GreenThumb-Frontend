@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { API_BASE_URL } from '../components/api/endpoints.js'
+import Confirm from  './Confirm.jsx'
+
 
 const Admin = () => {
 
   const [employees, setEmployees] = useState([])
-
   const [deleteOpt, setDeleteOpt] = useState(false)
+  const [confirmation, setConfirmation] = useState(false)
+  const [deleteEmployeeId, setDeleteEmployeeId] = useState(null)
 
   useEffect(() => {
   
@@ -19,19 +22,27 @@ const Admin = () => {
     })
    .then(res => res.json())
    .then(data => {setEmployees(data)})
-  },[])
+  },[employees])
 
   const handleDelete = ((id)  => {
-    
-    fetch(`${API_BASE_URL}/users/${id}`,{
+    setDeleteEmployeeId(id)
+    setConfirmation(true)      
+  })
+
+  const handleConfirmSubmit = (id) => {
+    fetch(`${API_BASE_URL}/users/${deleteEmployeeId}`,{
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
     .then(res => res.json())
-    .then(data => console.log(data))
-  })
+    setConfirmation(false)
+  }
+
+  const handleCancelSubmit = () => {
+    setConfirmation(false)
+  }
 
 
   const view = () => {
@@ -65,13 +76,18 @@ const Admin = () => {
           <div>
           <button onClick={() => setDeleteOpt(false)}>Return to Employee Selector</button>
           </div>
+          {confirmation && (
+                <Confirm
+                message="Are you sure you want to update the account details?"
+                onConfirm={handleConfirmSubmit}
+                onCancel={handleCancelSubmit}
+                />
+          )} 
         </>
       )
     }
   }
-
-  return view()
-  
+  return view() 
 }
 
 export default Admin
