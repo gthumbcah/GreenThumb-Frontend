@@ -11,6 +11,7 @@ import EditEmployee from './EditEmployee.jsx'
 import Home from './Home.jsx'
 import UserTimeSheet from './UserTimeSheet.jsx';
 import './Navbar.css'
+import ViewSingleJob from './ViewSingleJob.jsx';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,6 +50,7 @@ function App() {
              <Route path="/" element={<Navigate to="/calendar" />} />
              <Route path="/Home" element={<Home />} />
              <Route path="/calendar" element={<Calendar jwtToken={localStorage.getItem('token')} />} />
+             <Route path="/jobs/:id" element={<ViewSingleJob />} />
              <Route path="/newjob" element={<NewJob />} />
              {/* {isAdmin && <Route path="/Admin" element={<Admin />} />} */}
              <Route path="/admin" element={<Admin />} />
