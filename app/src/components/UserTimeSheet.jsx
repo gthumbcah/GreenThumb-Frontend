@@ -10,7 +10,7 @@ const UserTimeSheet = () => {
 
   useEffect(() => {  
 
-    fetch(`${API_BASE_URL}/timesheets`,{
+    fetch(`${API_BASE_URL}/timesheets/${id}`,{
       method: 'GET',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`

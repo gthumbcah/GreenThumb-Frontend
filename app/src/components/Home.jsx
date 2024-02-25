@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { API_BASE_URL } from '../components/api/endpoints.js'
+import { API_BASE_URL } from './api/endpoints.js'
 import { Link } from 'react-router-dom'
 
 const Home = () => {
