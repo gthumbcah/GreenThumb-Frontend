@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+import React from 'react';
+import './App.css';
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import Home from './Home.jsx';
 import Calendar from './Calendar.jsx';
 import Admin from './Admin.jsx';
 import NewJob from './NewJob.jsx';
 import Login from './Login.jsx';
-import Navbar from './Navbar.jsx'; 
-import './App.css';
+import Navbar from './Navbar.jsx'; // Import Navbar component
+import CreateUser from './CreateUser.jsx'
+import EditEmployee from './EditEmployee.jsx'
+ 
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,6 +41,13 @@ function App() {
       <h1>Green Thumb Landscaping</h1>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Calendar" element={<Calendar />} />
+          <Route path="/NewJob" element={<NewJob />} />
+          <Route path="/Admin" element={<Admin />} />
+          <Route path ="/Login" element={<Login />} />
+          <Route path ="/Admin/Create" element={<CreateUser />} />
+          <Route path ="/EditEmployee3" element={<EditEmployee />} />
           {/* Render login page if user is not authenticated */}
           {!isLoggedIn && <Route path="/" element={<Login onLogin={handleLogin} />} />}
           {/* Render protected routes if user is authenticated */}
