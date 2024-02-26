@@ -6,6 +6,7 @@ import Admin from './Admin.jsx';
 import NewJob from './NewJob.jsx';
 import Login from './Login.jsx';
 import Navbar from './Navbar.jsx'; // Import Navbar component
+import './App.css'
 
 function App() {
   const isAuthenticated = false; // Replace with your actual authentication logic
