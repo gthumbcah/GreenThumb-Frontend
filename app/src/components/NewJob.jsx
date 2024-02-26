@@ -1,17 +1,92 @@
 import React, { useState } from 'react';
 
-
 const NewJob = () => {
   // State for form fields
-  const [customerName, setCustomerName] = useState('');
-  const [toolsRequired, setToolsRequired] = useState('');
-  const [selectedEmployee, setSelectedEmployee] = useState('');
-  const [date, setDate] = useState('');
-  const [specialRequests, setSpecialRequests] = useState('');
+  const [customerName, setCustomerName] = useState("");
+  const [customerMobile, setCustomerMobile] = useState("");
+  const [jobAddress, setJobAddress] = useState("");
+  const [chosenTask, setChosenTask] = useState(""); // State to track chosen task
+  // const [selectedEmployee, setSelectedEmployee] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [finishDate, setFinishDate] = useState("");
+
+
+  const baseTools = ["Wheelbarrow", "Shovels", "Rake", "Strong Arms"]
+  const [toolsRequired, setToolsRequired] = useState(baseTools);
+
+  // Task options
+  const tasksArr = ["Mowing", "Trimming/Tidying", "Plant Installation", "Decorating"];
+
+  // Function to handle task selection
+  const handleTaskChange = (e) => {
+    const selectedTask = e.target.value;
+    setChosenTask(selectedTask);
+
+    // Update tools required based on selected task
+    switch (selectedTask) {
+      case "Mowing":
+        setToolsRequired([...baseTools,"Lawnmower", "Whippersnipper"]);
+        break;
+      case "Trimming/Tidying":
+        setToolsRequired([...baseTools,"Hedgetrimmer", "Handshearers"]);
+        break;
+      case "Plant Installation":
+        setToolsRequired([...baseTools,"Trowel", "String", "Flowers"]);
+        break;
+      case "Decorating":
+        setToolsRequired([...baseTools,"Decorations", "Statues", "Buggy"]);
+        break;
+      default :
+        setToolsRequired(baseTools);
+        break;
+    }
+  };
+
+  
+  const handleDate = (e) => {
+    const { name, value } = e.target;
+    if (name === "startDate") {
+      setStartDate(value);
+      if (!finishDate) {
+        setFinishDate(value); // Set finish date to start date if it's not already filled
+      }
+    } else if (name === "finishDate") {
+      setFinishDate(value);
+    }
+  };
 
   // Function to handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const jobData = {
+      customerDetails: [customerName, customerMobile, jobAddress],
+      tasks: [chosenTask],
+      toolsNeeded: toolsRequired,
+      users: [selectedEmployee],
+      dates: [startDate, finishDate],
+      jobActive: true
+    };
+
+    try {
+      const response = await fetch('https://greenthumb-backend.onrender.com/jobs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: "application/json",
+          Authorization: "Bearer" + localStorage.getItem('token')
+        },
+        body: JSON.stringify(jobData),
+      });
+
+      if (response.ok) {
+        console.log('Job created successfully');
+      } else {
+        console.log(response);
+      }
+    } catch (error) {
+      console.error('Error creating job:', error);
+    }
   };
 
   return (
@@ -19,7 +94,7 @@ const NewJob = () => {
       <h2>New Job</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          Customer's Name:
+          Customers Name:
           <input 
             type="text" 
             value={customerName} 
@@ -27,15 +102,46 @@ const NewJob = () => {
             required 
           />
         </label>
+        <label>
+          Customers Mobile:
+          <input 
+            type="text" 
+            value={customerMobile} 
+            onChange={(e) => setCustomerMobile(e.target.value)} 
+            required 
+          />
+        </label>
+        <label>
+          Job Address:
+          <input 
+            type="text" 
+            value={jobAddress} 
+            onChange={(e) => setJobAddress(e.target.value)} 
+            required 
+          />
+        </label>
+        <br />
+        <label>
+          Tasks:
+          <select 
+            value={chosenTask} 
+            onChange={handleTaskChange} 
+            required
+          >
+            <option value="">Select a task</option>
+            {tasksArr.map(task => (
+              <option key={task} value={task}>{task}</option>
+            ))}
+          </select>
+        </label>
         <br />
         <label>
           Tools Required:
-          <input 
-            type="text" 
-            value={toolsRequired} 
-            onChange={(e) => setToolsRequired(e.target.value)} 
-            required 
-          />
+          <ul>
+            {toolsRequired.map(tool => (
+              <li key={tool}>{tool}</li>
+            ))}
+          </ul>
         </label>
         <br />
         <label>
@@ -54,20 +160,22 @@ const NewJob = () => {
         </label>
         <br />
         <label>
-          Date:
+          Start Date:
           <input 
-            type="date" 
-            value={date} 
-            onChange={(e) => setDate(e.target.value)} 
+            type="date"
+            name="startDate"
+            value={startDate}
+            onChange={handleDate}
             required 
           />
         </label>
-        <br />
         <label>
-          Special Requests:
-          <textarea 
-            value={specialRequests} 
-            onChange={(e) => setSpecialRequests(e.target.value)} 
+          Finish Date:
+          <input 
+            type="date"
+            name="finishDate"
+            value={finishDate}
+            onChange={handleDate}
           />
         </label>
         <br />
