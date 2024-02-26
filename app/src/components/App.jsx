@@ -30,25 +30,31 @@ function App() {
     
     // Update state to reflect that the user is no longer logged in
     setIsLoggedIn(false);
+    
+    // Debugging: Log that the logout function is triggered
+    console.log('Logging out...');
+  
+    // Redirect the user to the home page
+    return <Navigate to="/" replace />;
   };
 
   return (
     <>
       <h1>Green Thumb Landscaping</h1>
       <BrowserRouter>
-        <Routes>
-          {/* Render login page if user is not authenticated */}
-          {!isLoggedIn && <Route path="/" element={<Login onLogin={handleLogin} />} />}
-          {/* Render protected routes if user is authenticated */}
-          {isLoggedIn && (
-            <>
-              <Route path="/" element={<Navigate to="/calendar" />} />
-              <Route path="/calendar" element={<Calendar />} />
-              <Route path="/newjob" element={<NewJob />} />
-              {isAdmin && <Route path="/admin" element={<Admin />} />}
-            </>
-          )}
-        </Routes>
+      <Routes>
+  {/* Render login page if user is not authenticated */}
+  {!isLoggedIn && <Route path="/login" element={<Login onLogin={handleLogin} />} />}
+  {/* Render protected routes if user is authenticated */}
+  {isLoggedIn && (
+    <>
+      <Route path="/" element={<Navigate to="/calendar" />} />
+      <Route path="/calendar" element={<Calendar />} />
+      <Route path="/newjob" element={<NewJob />} />
+      {isAdmin && <Route path="/admin" element={<Admin />} />}
+    </>
+  )}
+</Routes>
         {/* Render Navbar if user is logged in */}
         {isLoggedIn && <Navbar onLogout={handleLogout} />}
       </BrowserRouter>
