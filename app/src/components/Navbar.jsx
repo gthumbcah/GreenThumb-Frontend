@@ -11,7 +11,7 @@ const Navbar = ({ onLogout }) => {
         <Link to="/Calendar">Calendar</Link>
         <Link to="/NewJob">New Job</Link>
         <Link to="/Admin">Admin</Link>
-        <Link to="/login" onClick={onLogout}>Logout</Link>
+        <Link to="/" onClick={onLogout}>Logout</Link>
       </div>
     </div>
   );
