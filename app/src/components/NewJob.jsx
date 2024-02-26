@@ -6,7 +6,7 @@ const NewJob = () => {
   const [customerMobile, setCustomerMobile] = useState("");
   const [jobAddress, setJobAddress] = useState("");
   const [chosenTask, setChosenTask] = useState(""); // State to track chosen task
-  const [selectedEmployee, setSelectedEmployee] = useState("");
+  // const [selectedEmployee, setSelectedEmployee] = useState("");
   const [startDate, setStartDate] = useState("");
   const [finishDate, setFinishDate] = useState("");
 
@@ -73,6 +73,8 @@ const NewJob = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Accept: "application/json",
+          Authorization: "Bearer" + localStorage.getItem('token')
         },
         body: JSON.stringify(jobData),
       });
