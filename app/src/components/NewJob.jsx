@@ -2,15 +2,28 @@ import React, { useState } from 'react';
 
 const NewJob = () => {
   // State for form fields
-  const [customerName, setCustomerName] = useState('');
-  const [toolsRequired, setToolsRequired] = useState('');
-  const [selectedEmployee, setSelectedEmployee] = useState('');
-  const [date, setDate] = useState('');
-  const [specialRequests, setSpecialRequests] = useState('');
+  const [customerName, setCustomerName] = useState("");
+  const [customerMobile, setCustomerMobile] = useState("")
+  const [jobAddress, setJobAddress] = useState("")
+  const [toolsRequired, setToolsRequired] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState([]);
+  const [date, setDate] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   // Function to handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    const jobData = {
+      customerDetails: [customerName, customerMobile, jobAddress],
+      toolsNeeded: [toolsRequired],
+      users: [],
+      tasks:[],
+      dates: [],
+      jobActive: true
+
+    }
+
   };
 
   return (
@@ -18,11 +31,29 @@ const NewJob = () => {
       <h2>New Job</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          Customer's Name:
+          Customers Name:
           <input 
             type="text" 
             value={customerName} 
             onChange={(e) => setCustomerName(e.target.value)} 
+            required 
+          />
+        </label>
+        <label>
+          Customers Mobile:
+          <input 
+            type="text" 
+            value={customerMobile} 
+            onChange={(e) => setCustomerMobile(e.target.value)} 
+            required 
+          />
+        </label>
+        <label>
+          Job Address:
+          <input 
+            type="text" 
+            value={jobAddress} 
+            onChange={(e) => setJobAddress(e.target.value)} 
             required 
           />
         </label>
@@ -65,8 +96,8 @@ const NewJob = () => {
         <label>
           Special Requests:
           <textarea 
-            value={specialRequests} 
-            onChange={(e) => setSpecialRequests(e.target.value)} 
+            value={tasks} 
+            onChange={(e) => setTasks(e.target.value)} 
           />
         </label>
         <br />
