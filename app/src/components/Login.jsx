@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { API_BASE_URL } from '../components/api/endpoints.js'; // Import API_BASE_URL
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -31,14 +31,19 @@ const Login = () => {
         throw new Error('Failed to authenticate'); // Throw error if response is not ok
       }
 
-      console.log('Login successful');
-
+      const data = await response.json();
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        setIsLoading(false);
+        onLogin({ token: data.token }); // Notify parent component of successful login
+      } else {
+        throw new Error('Failed to get token');
+      }
     } catch (error) {
       console.error('Login failed:', error);
       setError('Invalid username or password');
+      setIsLoading(false); // Set loading state back to false
     }
-
-    setIsLoading(false); // Set loading state back to false
   };
 
   return (
@@ -62,7 +67,10 @@ const Login = () => {
         />
       </div>
       {error && <div className="error-message">{error}</div>} {/* Display error message if there is an error */}
-      <button className={`button is-link is-outlined ${isLoading ? 'is-loading' : ''}`} onClick={handleLogin}>
+      <button
+        className={`button is-link is-outlined ${isLoading ? 'is-loading' : ''}`}
+        onClick={handleLogin}
+      >
         {isLoading ? 'Logging in...' : 'Login'}
       </button>
     </div>

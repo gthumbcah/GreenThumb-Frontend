@@ -5,63 +5,31 @@ import Calendar from './Calendar.jsx';
 import Admin from './Admin.jsx';
 import NewJob from './NewJob.jsx';
 import Login from './Login.jsx';
-import Navbar from './Navbar.jsx'; // Import Navbar component
+import Navbar from './Navbar.jsx'; 
 import './App.css';
-import { API_BASE_URL } from '../components/api/endpoints.js';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (token) {
-          const response = await fetch(`${API_BASE_URL}/check-auth`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          if (response.ok) {
-            setIsAuthenticated(true);
-          } else {
-            setIsAuthenticated(false);
-          }
-        } else {
-          setIsAuthenticated(false);
-        }
-      } catch (error) {
-        console.error('Error checking authentication:', error);
-        setIsAuthenticated(false);
-      }
-    };
-    checkAuth();
+    // Check if user is logged in (for example, by checking localStorage or session storage)
+    const userIsLoggedIn = localStorage.getItem('token') !== null;
+
+    setIsLoggedIn(userIsLoggedIn);
   }, []);
 
-  const handleLogin = async (credentials) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-          setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
-      } else {
-        setIsAuthenticated(false);
-      }
-    } catch (error) {
-      console.error('Error logging in:', error);
-      setIsAuthenticated(false);
-    }
+  const handleLogin = (loginData) => {
+    setIsLoggedIn(true);
+    setIsAdmin(loginData.isAdmin); // Assuming loginData contains isAdmin information
+  };
+
+  const handleLogout = () => {
+    // Perform logout actions, such as removing the token from localStorage
+    localStorage.removeItem('token');
+    
+    // Update state to reflect that the user is no longer logged in
+    setIsLoggedIn(false);
   };
 
   return (
@@ -69,29 +37,21 @@ function App() {
       <h1>Green Thumb Landscaping</h1>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          {isAuthenticated ? (
-            <AuthenticatedRoutes />
-          ) : (
-            <Route path="/*" element={<Navigate to="/login" />} />
+          {/* Render login page if user is not authenticated */}
+          {!isLoggedIn && <Route path="/" element={<Login onLogin={handleLogin} />} />}
+          {/* Render protected routes if user is authenticated */}
+          {isLoggedIn && (
+            <>
+              <Route path="/" element={<Navigate to="/calendar" />} />
+              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/newjob" element={<NewJob />} />
+              {isAdmin && <Route path="/admin" element={<Admin />} />}
+            </>
           )}
         </Routes>
+        {/* Render Navbar if user is logged in */}
+        {isLoggedIn && <Navbar onLogout={handleLogout} />}
       </BrowserRouter>
-    </>
-  );
-}
-
-function AuthenticatedRoutes() {
-  return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/calendar" element={<Calendar />} />
-        <Route path="/newjob" element={<NewJob />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
     </>
   );
 }
