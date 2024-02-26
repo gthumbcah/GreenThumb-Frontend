@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const NewJob = () => {
   // State for form fields
   const [customerName, setCustomerName] = useState('');

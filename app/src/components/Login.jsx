@@ -20,7 +20,6 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      <h2>Login</h2>
       <div className="form-group">
         <label htmlFor="username">Username:</label>
         <input
