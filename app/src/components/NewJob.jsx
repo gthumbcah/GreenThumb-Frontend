@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const NewJob = () => {
   // State for form fields
   const [customerName, setCustomerName] = useState("");
   const [customerMobile, setCustomerMobile] = useState("");
   const [jobAddress, setJobAddress] = useState("");
-  const [chosenTask, setChosenTask] = useState(""); // State to track chosen task
-  // const [selectedEmployee, setSelectedEmployee] = useState("");
+  const [chosenTask, setChosenTask] = useState(""); 
+  const [users, setUsers] = useState([]);
+  const [chosenUsers, setChosenUsers] = useState([])
   const [startDate, setStartDate] = useState("");
   const [finishDate, setFinishDate] = useState("");
+  const [selectedEmployees, setSelectedEmployees] = useState([]);
 
-
-  const baseTools = ["Wheelbarrow", "Shovels", "Rake", "Strong Arms"]
+  const baseTools = ["General Items (wheelbarrow, shovel, rake, broom, grass bags)"]
   const [toolsRequired, setToolsRequired] = useState(baseTools);
 
   // Task options
@@ -42,13 +43,53 @@ const NewJob = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('https://greenthumb-backend.onrender.com/users', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setUsers(data);
+        } else {
+          console.log('Failed to find users');
+        }
+      } catch (error) {
+        console.error('Error finding users:', error);
+      }
+    };
   
+    fetchData();
+  }, []);
+  
+  const handleChosenUsersChange = (e) => {
+    const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
+    setChosenUsers(selectedOptions.filter(option => !selectedEmployees.includes(option))); 
+  };
+  
+  const handleAddEmployees = () => {
+    setSelectedEmployees(prevEmployees => [...prevEmployees, ...chosenUsers]);
+    setChosenUsers([]); 
+  };
+
+  const handleRemoveEmployees = () => {
+    setChosenUsers(prevUnselected => [...prevUnselected, ...chosenUsers]);
+    setSelectedEmployees([...chosenUsers]); 
+  };
+
+
+
   const handleDate = (e) => {
     const { name, value } = e.target;
     if (name === "startDate") {
       setStartDate(value);
       if (!finishDate) {
-        setFinishDate(value); // Set finish date to start date if it's not already filled
+        setFinishDate(value); 
       }
     } else if (name === "finishDate") {
       setFinishDate(value);
@@ -63,7 +104,7 @@ const NewJob = () => {
       customerDetails: [customerName, customerMobile, jobAddress],
       tasks: [chosenTask],
       toolsNeeded: toolsRequired,
-      users: [selectedEmployee],
+      users: selectedEmployees, // Use selectedEmployees instead of users
       dates: [startDate, finishDate],
       jobActive: true
     };
@@ -147,19 +188,33 @@ const NewJob = () => {
         <label>
           Select Employee:
           <select 
-            value={selectedEmployee} 
-            onChange={(e) => setSelectedEmployee(e.target.value)} 
-            required
+            value={chosenUsers} 
+            onChange={handleChosenUsersChange}
+            multiple
           >
             <option value="">Select an employee</option>
-            {/* Replace the options below with actual employee data */}
-            <option value="employee1">Employee 1</option>
-            <option value="employee2">Employee 2</option>
-            <option value="employee3">Employee 3</option>
+            {users.map((user, index) => (
+              <option key={index} value={user.name}>{user.name}</option>
+            ))}
           </select>
         </label>
         <br />
+        <button type="button" onClick={handleAddEmployees}>Add Employees</button>
+        <br />
+        <div>
+          <h3>Selected Employees:</h3>
+          <ul
+            required>
+            {selectedEmployees.map((employee, index) => (
+              <li key={index}>{employee}</li>
+            ))}
+          </ul>
+        </div>
+        <br />
         <label>
+        <br />
+        <button type="button" onClick={handleRemoveEmployees}> Reset Employees List </button>
+        <br />
           Start Date:
           <input 
             type="date"
@@ -186,3 +241,4 @@ const NewJob = () => {
 };
 
 export default NewJob;
+

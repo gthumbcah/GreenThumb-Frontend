@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
-import { BrowserRouter, Routes, Route, useParams, Navigate } from "react-router-dom"
-import Home from './Home.jsx'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Calendar from './Calendar.jsx';
 import Admin from './Admin.jsx'
 import NewJob from './NewJob.jsx'
