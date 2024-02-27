@@ -10,6 +10,7 @@ const NewJob = () => {
   const [chosenUsers, setChosenUsers] = useState([])
   const [startDate, setStartDate] = useState("");
   const [finishDate, setFinishDate] = useState("");
+  const [datesInRange, setDatesInRange] = useState([]);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const baseTools = ["General Items (wheelbarrow, shovel, rake, broom, grass bags)"]
   const [toolsRequired, setToolsRequired] = useState(baseTools);
@@ -88,28 +89,50 @@ const handleChosenUsersChange = (e) => {
 
 
 // handle if job goes over several days or a single day
-  const handleDate = (e) => {
-    const { name, value } = e.target;
-    if (name === "startDate") {
-      setStartDate(value);
-      if (!finishDate) {
-        setFinishDate(value); 
-      }
-    } else if (name === "finishDate") {
-      setFinishDate(value);
+const handleDate = (e) => {
+  const { name, value } = e.target;
+  if (name === "startDate") {
+    setStartDate(value);
+    if (!finishDate) {
+      setFinishDate(value); 
     }
-  };
+  } else if (name === "finishDate") {
+    setFinishDate(value);
+  }
+
+  // Check if start date is earlier than finish date
+  if (new Date(startDate) >= new Date(finishDate)) {
+    console.error('Start date must be earlier than finish date');
+    return; // Stop submission
+  }
+
+  // Calculate dates in range
+  const start = new Date(startDate);
+  const finish = new Date(finishDate);
+  const datesInRange = [];
+
+  for (let currentDate = new Date(start); currentDate <= finish; currentDate.setDate(currentDate.getDate() + 1)) {
+    datesInRange.push(currentDate.toISOString().split('T')[0]);
+  }
+
+  // Update datesInRange state
+  setDatesInRange(datesInRange);
+};
 
   // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+  
+
+
     // creates JS object to be JSON
     const jobData = {
       customerDetails: [customerName, customerMobile, jobAddress],
       tasks: [chosenTask],
       toolsNeeded: toolsRequired,
       users: selectedEmployees,
-      dates: [startDate, finishDate],
+      dates: datesInRange,
       jobActive: true
     };
     try {
