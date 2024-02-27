@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { API_BASE_URL } from '../components/api/endpoints.js'; // Import API_BASE_URL
+import { API_BASE_URL } from '../components/api/endpoints.js'; 
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
