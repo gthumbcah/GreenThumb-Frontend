@@ -44,7 +44,7 @@ function App() {
           {isLoggedIn && (
              <>
              <Route path="/" element={<Navigate to="/calendar" />} />
-             <Route path="/calendar" element={<Calendar />} />
+             <Route path="/calendar" element={<Calendar jwtToken={localStorage.getItem('token')} />} />
              <Route path="/newjob" element={<NewJob />} />
              {/* {isAdmin && <Route path="/Admin" element={<Admin />} />} */}
              <Route path="/admin" element={<Admin />} />
