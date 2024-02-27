@@ -5,6 +5,8 @@ import ClockComponent from './ClockComponent';
 
 const MyCalendar = ({ jwtToken }) => {
   const [jobs, setJobs] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [jobsForSelectedDate, setJobsForSelectedDate] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,18 +37,40 @@ const MyCalendar = ({ jwtToken }) => {
     return hasJobOnDate && <div style={{ backgroundColor: 'red', borderRadius: '50%', height: '0.75rem', width: '0.75rem' , marginLeft:'0.75rem'}}></div>;
   };
 
+  const handleClickDay = (date) => {
+    console.log("Selected date:", date);
+    setSelectedDate(date);
+    const formattedDate = date.toISOString().split('T')[0];
+    const jobsOnSelectedDate = jobs.filter(job => job.dates.includes(formattedDate));
+    setJobsForSelectedDate(jobsOnSelectedDate);
+  };
+
   return (
     <div className="calendar-container">
       <h2>Calendar</h2>
       <Calendar 
         tileContent={tileContent}
+        onClickDay={handleClickDay}
       />
-      <ClockComponent jwtToken={jwtToken} />
+      {selectedDate && (
+        <div className="jobs-list">
+          <h3>Jobs for {selectedDate.toDateString()}</h3>
+          <ul>
+            {jobsForSelectedDate.map((job, index) => (
+              <li key={index}>
+                {job.customerDetails[0]} - {`${job.dates.length} day job`}
+                {<ClockComponent jwtToken={jwtToken} />}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
 
 export default MyCalendar;
+
 
 
 
