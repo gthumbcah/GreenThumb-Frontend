@@ -11,7 +11,6 @@ const NewJob = () => {
   const [startDate, setStartDate] = useState("");
   const [finishDate, setFinishDate] = useState("");
   const [selectedEmployees, setSelectedEmployees] = useState([]);
-
   const baseTools = ["General Items (wheelbarrow, shovel, rake, broom, grass bags)"]
   const [toolsRequired, setToolsRequired] = useState(baseTools);
 
@@ -23,7 +22,7 @@ const NewJob = () => {
     const selectedTask = e.target.value;
     setChosenTask(selectedTask);
 
-    // Update tools required based on selected task
+    // Auto Update tools required based on selected task , with default tools for minor work
     switch (selectedTask) {
       case "Mowing":
         setToolsRequired([...baseTools,"Lawnmower", "Whippersnipper"]);
@@ -42,7 +41,7 @@ const NewJob = () => {
         break;
     }
   };
-
+  // Fetches Users from the database for selection purposes
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -67,23 +66,28 @@ const NewJob = () => {
     fetchData();
   }, []);
   
-  const handleChosenUsersChange = (e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
-    setChosenUsers(selectedOptions.filter(option => !selectedEmployees.includes(option))); 
-  };
-  
+  //Extracts the name from the chosen user and places in Array and ensures user cannot be double selected.
+const handleChosenUsersChange = (e) => {
+  const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
+  setChosenUsers(selectedOptions.filter(name => !selectedEmployees.includes(users.find(user => user.name === name)._id))); 
+};
+
+  // Combines any previously selected users array and newly selected employees based on their object id
   const handleAddEmployees = () => {
-    setSelectedEmployees(prevEmployees => [...prevEmployees, ...chosenUsers]);
+    // Filter out users that are already selected in the added Section
+    const newEmployees = chosenUsers.filter(name => !selectedEmployees.includes(users.find(user => user.name === name)._id));
+    // Concatenate the new employees with the already selected ones
+    setSelectedEmployees(prevEmployees => [...prevEmployees, ...newEmployees.map(name => users.find(user => user.name === name)._id)]);
     setChosenUsers([]); 
   };
-
+  //Resets the selected Users
   const handleRemoveEmployees = () => {
     setChosenUsers(prevUnselected => [...prevUnselected, ...chosenUsers]);
     setSelectedEmployees([...chosenUsers]); 
   };
 
 
-
+// handle if job goes over several days or a single day
   const handleDate = (e) => {
     const { name, value } = e.target;
     if (name === "startDate") {
@@ -99,16 +103,15 @@ const NewJob = () => {
   // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    // creates JS object to be JSON
     const jobData = {
       customerDetails: [customerName, customerMobile, jobAddress],
       tasks: [chosenTask],
       toolsNeeded: toolsRequired,
-      users: selectedEmployees, // Use selectedEmployees instead of users
+      users: selectedEmployees,
       dates: [startDate, finishDate],
       jobActive: true
     };
-
     try {
       const response = await fetch('https://greenthumb-backend.onrender.com/jobs', {
         method: 'POST',
@@ -123,10 +126,14 @@ const NewJob = () => {
       if (response.ok) {
         console.log('Job created successfully');
       } else {
-        console.log(response);
+        console.log('Error response:', response);
       }
     } catch (error) {
-      console.error('Error creating job:', error);
+        console.error('Error creating job:', error);
+        if (error.response) {
+          const responseBody = await error.response.json();
+          console.error('Response body:', responseBody);
+        }
     }
   };
 
@@ -193,7 +200,7 @@ const NewJob = () => {
             multiple
           >
             <option value="">Select an employee</option>
-            {users.map((user, index) => (
+            {users.map((user,index) => (
               <option key={index} value={user.name}>{user.name}</option>
             ))}
           </select>
@@ -203,10 +210,9 @@ const NewJob = () => {
         <br />
         <div>
           <h3>Selected Employees:</h3>
-          <ul
-            required>
-            {selectedEmployees.map((employee, index) => (
-              <li key={index}>{employee}</li>
+          <ul>
+            {selectedEmployees.map((employeeId, index) => (
+              <li key={index}>{users.find(user => user._id === employeeId)?.name}</li>
             ))}
           </ul>
         </div>
@@ -241,4 +247,6 @@ const NewJob = () => {
 };
 
 export default NewJob;
+
+
 
