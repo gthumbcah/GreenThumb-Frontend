@@ -6,23 +6,31 @@ const MyCalendar = () => {
   const [date, setDate] = useState(new Date());
   const [jobsData, setJobsData] = useState([]);
 
-  useEffect(() => {
-    const fetchJobsData = async () => {
-      try {
-        const response = await fetch('https://greenthumb-backend.onrender.com/jobs');
-        if (response.ok) {
-          const data = await response.json();
-          setJobsData(data);
-        } else {
-          console.log('Failed to fetch jobs data');
-        }
-      } catch (error) {
-        console.error('Error fetching jobs data:', error);
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('https://greenthumb-backend.onrender.com/jobs', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setJobsData(data);
+        console.log(data);
+      } else {
+        console.log('Failed to find Jobs');
       }
-    };
+    } catch (error) {
+      console.error('Error finding Jobs:', error);
+    }
+  };
 
-    fetchJobsData();
-  }, []);
+  fetchData();
+}, []);
+
 
   // Function to check if there is a job scheduled for a specific date
   const isJobScheduled = (checkDate) => {
@@ -42,7 +50,7 @@ const MyCalendar = () => {
     if (view === 'month') {
       const checkDate = new Date(date);
       if (isJobScheduled(checkDate)) {
-        return <p style={{ backgroundColor: 'red', borderRadius: '50%', width: '10px', height: '10px' }}></p>;
+        return <p style={{ backgroundColor: 'red', borderRadius: '50%', width: '0.5rem', height: '0.5rem' }}></p>;
       }
     }
     return null;
