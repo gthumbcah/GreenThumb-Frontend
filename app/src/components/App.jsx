@@ -50,7 +50,7 @@ function App() {
              <Route path="/admin" element={<Admin />} />
              {/* the above is breaking the admin route when {} and isAdmin removed it workes */}
              <Route path ="/Admin/Create" element={<CreateUser />} />
-             <Route path ="/EditEmployee3" element={<EditEmployee />} />
+             <Route path ="/Edit/:id" element={<EditEmployee />} />
            </>
           )}
         </Routes>
