@@ -1,45 +1,70 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { API_BASE_URL } from './api/endpoints'
+import { useParams } from 'react-router-dom'
 
 const editUser = () => {
 
-    const [employeeName, setEmployeeName] = useState('')
-    const [employeeEmail, setEmployeeEmail] = useState('')
-    const [employeeMob, setEmployeeMob] = useState('')
-    const [employeePass, setEmployeePass] = useState('')
-    // const [employeeAv, setEmployeeEmailAv] = useState('')
+    const [employee, setEmployee] = useState([])
+    const [updatedEm, setUpdatedEm] = useState({name:'', email:'', password:''})
+
+    const { id } = useParams()
+
+    useEffect(() => {
+
+        fetch(`${API_BASE_URL}/users/${id}`,{
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+        })
+        .then(res  => res.json())
+        .then(data => setEmployee(data))
+
+    },[])
+
+
 
     const handleSubmit = (event) => {
         event.preventDefault()
+
+        fetch(`${API_BASE_URL}/users/${id}`,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(updatedEm)
+        
+        })
+        .then(res => res.json())
+        .then(data => setEmployee(data))
+
+        setUpdatedEm({name:'', email:'', password:''})
     } 
     
 
     return (
-        <div>
+        <>
             {/* will pass down the employee details as label */}
             <form onSubmit={handleSubmit}>
-                <label>Employee's Name:
+                <label>{employee.name}:
                     <input 
                     type="text" 
-                    value={employeeName}
-                    onChange={(e) => setEmployeeName(e.target.value)}/>
+                    value={updatedEm.name}
+                    onChange={(e) => setUpdatedEm({ ...updatedEm, name: e.target.value })}/>
                 </label><br></br>
-                <label>Email Adress:
+                <label>{employee.email}:
                     <input 
                     type="text" 
-                    value={employeeEmail}
-                    onChange={(e) => setEmployeeEmail(e.target.value)}/>
+                    value={updatedEm.email}
+                    onChange={(e) => setUpdatedEm({ ...updatedEm, email: e.target.value })}/>
                 </label><br></br>
-                <label>Mobile:
+                <label>password:
                     <input type="text" 
-                    value={employeeMob}
-                    onChange={(e) => setEmployeeMob(e.target.value)}/>
+                    value={updatedEm.password}
+                    onChange={(e) => setUpdatedEm({ ...updatedEm, password: e.target.value })}/>
                 </label><br></br>
-                <label>Password:
-                    <input type="text" 
-                    value={employeePass}
-                    onChange={(e) => setEmployeePass(e.target.value)}/>
-                </label><br></br>
-                    <label>Avaliablites:<br></br>
+                    {/* <label>Avaliablites:<br></br>
                     <label>Monday:</label>
                     <input type="checkbox"></input>
                     <label>Tuesday:</label>
@@ -50,12 +75,13 @@ const editUser = () => {
                     <input type="checkbox"></input>
                     <label>Friday:</label>
                     <input type="checkbox"></input>                    
-                </label><br></br>
+                </label><br></br> */}
+                {/* need to play with DB for boolean of jobs */}
                 
-                <button type="submit">Update Account Details</button> {/* onSumbit in button and can remove most from form*/}
+                <button type="submit">Update Account Details</button>
                 
             </form>            
-        </div>
+        </>
     )
   }
   
