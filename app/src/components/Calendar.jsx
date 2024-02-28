@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import ClockComponent from './ClockComponent';
+import { API_BASE_URL } from './api/endpoints';
 
 const MyCalendar = ({ jwtToken }) => {
   const [jobs, setJobs] = useState([]);
@@ -33,13 +34,14 @@ const MyCalendar = ({ jwtToken }) => {
     fetchData();
   }, []);
 
+  console.log(jobs)
+
   const tileContent = ({ date }) => {
     const hasJobOnDate = jobs.some(job => job.dates.includes(date.toISOString().split('T')[0]));
     return hasJobOnDate && <div style={{ backgroundColor: 'red', borderRadius: '50%', height: '0.75rem', width: '0.75rem' , marginLeft:'0.75rem'}}></div>;
   };
 
   const handleClickDay = (date) => {
-    console.log("Selected date:", date);
     setSelectedDate(date);
     const formattedDate = date.toISOString().split('T')[0];
     const jobsOnSelectedDate = jobs.filter(job => job.dates.includes(formattedDate));
@@ -59,8 +61,8 @@ const MyCalendar = ({ jwtToken }) => {
           <ul>
             {jobsForSelectedDate.map((job, index) => (
               <li key={index}>
-                <Link to={`/job/${job._id}`}>{job.customerDetails[0]}</Link> - {`${job.dates.length} day job`}
-                {<ClockComponent jwtToken={jwtToken} />}
+                {/* <Link to={`${API_BASE_URL}/jobs/${job._id}`}>{job.customerDetails[0]}</Link> - {`${job.dates.length} day job`}
+                {<ClockComponent jwtToken={jwtToken} />} */}
               </li>
             ))}
           </ul>
@@ -71,7 +73,5 @@ const MyCalendar = ({ jwtToken }) => {
 };
 
 export default MyCalendar;
-
-
 
 
