@@ -8,10 +8,10 @@ const ClockComponent = ({ jwtToken }) => {
     try {
       if (isClockedIn) {
         // Clock out
-        await clockOut(jwtToken, new Date());
+        await clockOut(jwtToken);
       } else {
         // Clock in
-        await clockIn(jwtToken, new Date());
+        await clockIn(jwtToken);
       }
       setIsClockedIn(!isClockedIn);
     } catch (error) {

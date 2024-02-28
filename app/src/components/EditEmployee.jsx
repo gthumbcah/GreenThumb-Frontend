@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { API_BASE_URL } from './api/endpoints'
 import { useParams } from 'react-router-dom'
+import Confirm from  './Confirm.jsx'
 
 const editUser = () => {
 
     const [employee, setEmployee] = useState([])
     const [updatedEm, setUpdatedEm] = useState({name:'', email:'', password:''})
+    const [confirmation, setConfirmation] = useState(false)
 
     const { id } = useParams()
 
@@ -27,25 +29,31 @@ const editUser = () => {
     const handleSubmit = (event) => {
         event.preventDefault()
 
-        fetch(`${API_BASE_URL}/users/${id}`,{
+        setConfirmation(true)
+    }
+
+    const handleConfirmSubmit = () => {
+        fetch(`${API_BASE_URL}/users/${id}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`
             },
             body: JSON.stringify(updatedEm)
-        
         })
-        .then(res => res.json())
-        .then(data => setEmployee(data))
-
-        setUpdatedEm({name:'', email:'', password:''})
-    } 
+            .then(res => res.json())
+            .then(data => setEmployee(data));
     
+        setUpdatedEm({ name: '', email: '', password: '' });
+        setConfirmation(false)        
+    }
+
+    const handleCancelSubmit = () => {
+        setConfirmation(false)
+    }    
 
     return (
         <>
-            {/* will pass down the employee details as label */}
             <form onSubmit={handleSubmit}>
                 <label>{employee.name}:
                     <input 
@@ -80,7 +88,14 @@ const editUser = () => {
                 
                 <button type="submit">Update Account Details</button>
                 
-            </form>            
+            </form>
+            {confirmation && (
+                <Confirm
+                message="Are you sure you want to update the account details?"
+                onConfirm={handleConfirmSubmit}
+                onCancel={handleCancelSubmit}
+                />
+            )}          
         </>
     )
   }
