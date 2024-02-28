@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { API_BASE_URL } from '../components/api/endpoints.js'
 
+
 const CreateUser = () => {
 
     const [employeeName, setEmployeeName] = useState('')
     const [employeeEmail, setEmployeeEmail] = useState('')
     const [employeePass, setEmployeePass] = useState('')
-
     const [employees, setEmployees] = useState([])
 
     useEffect(() => {
@@ -41,6 +41,8 @@ const CreateUser = () => {
         })
         .then(res => res.json())
         .then(data => setEmployees(...employees, data))
+
+        history.pushState('')
 
         // Clear input after submission
         setEmployeeEmail('')
