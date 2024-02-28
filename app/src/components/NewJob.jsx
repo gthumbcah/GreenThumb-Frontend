@@ -223,7 +223,7 @@ const handleDate = (e) => {
             multiple
           >
             <option value="">Select an employee</option>
-            {users.map((user,index) => (
+            {users.filter(user => !user.admin).map((user,index) => (
               <option key={index} value={user.name}>{user.name}</option>
             ))}
           </select>
