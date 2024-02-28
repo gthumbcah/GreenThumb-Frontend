@@ -272,4 +272,3 @@ const handleDate = (e) => {
 export default NewJob;
 
 
-

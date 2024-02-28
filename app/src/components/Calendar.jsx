@@ -22,6 +22,7 @@ const MyCalendar = ({ jwtToken }) => {
         });
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           setJobs(data);
         } else {
           console.log('Failed to find jobs');
@@ -34,19 +35,20 @@ const MyCalendar = ({ jwtToken }) => {
     fetchData();
   }, []);
 
-  console.log(jobs)
 
   const tileContent = ({ date }) => {
-    const hasJobOnDate = jobs.some(job => job.dates.includes(date.toISOString().split('T')[0]));
+    console.log(date);
+    const hasJobOnDate = jobs.some(job => job.dates.includes(date));
     return hasJobOnDate && <div style={{ backgroundColor: 'red', borderRadius: '50%', height: '0.75rem', width: '0.75rem' , marginLeft:'0.75rem'}}></div>;
   };
 
   const handleClickDay = (date) => {
     setSelectedDate(date);
-    const formattedDate = date.toISOString().split('T')[0];
+    const formattedDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
     const jobsOnSelectedDate = jobs.filter(job => job.dates.includes(formattedDate));
     setJobsForSelectedDate(jobsOnSelectedDate);
-  };
+};
+
 
   return (
     <div className="calendar-container">
@@ -61,8 +63,8 @@ const MyCalendar = ({ jwtToken }) => {
           <ul>
             {jobsForSelectedDate.map((job, index) => (
               <li key={index}>
-                {/* <Link to={`${API_BASE_URL}/jobs/${job._id}`}>{job.customerDetails[0]}</Link> - {`${job.dates.length} day job`}
-                {<ClockComponent jwtToken={jwtToken} />} */}
+                <Link to={`${API_BASE_URL}/jobs/${job._id}`}>{job.customerDetails[0]}</Link> - {`${job.dates.length} day job`}
+                {<ClockComponent jwtToken={jwtToken} />}
               </li>
             ))}
           </ul>
