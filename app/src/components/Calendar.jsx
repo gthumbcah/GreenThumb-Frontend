@@ -59,7 +59,7 @@ const MyCalendar = ({ jwtToken }) => {
           <ul>
             {jobsForSelectedDate.map((job, index) => (
               <li key={index}>
-                <Link to={`/job/${job.id}`}>{job.customerDetails[0]}</Link> - {`${job.dates.length} day job`}
+                <Link to={`/job/${job._id}`}>{job.customerDetails[0]}</Link> - {`${job.dates.length} day job`}
                 {<ClockComponent jwtToken={jwtToken} />}
               </li>
             ))}
