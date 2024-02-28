@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import ClockComponent from './ClockComponent';
@@ -58,7 +59,7 @@ const MyCalendar = ({ jwtToken }) => {
           <ul>
             {jobsForSelectedDate.map((job, index) => (
               <li key={index}>
-                {job.customerDetails[0]} - {`${job.dates.length} day job`}
+                <Link to={`/job/${job.id}`}>{job.customerDetails[0]}</Link> - {`${job.dates.length} day job`}
                 {<ClockComponent jwtToken={jwtToken} />}
               </li>
             ))}
