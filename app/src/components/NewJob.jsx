@@ -91,33 +91,45 @@ const handleChosenUsersChange = (e) => {
 // handle if job goes over several days or a single day
 const handleDate = (e) => {
   const { name, value } = e.target;
+  let newStartDate = startDate;
+  let newFinishDate = finishDate;
+
   if (name === "startDate") {
-    setStartDate(value);
-    if (!finishDate) {
-      setFinishDate(value); 
+    newStartDate = value;
+    if (!finishDate || new Date(value) > new Date(finishDate)) {
+      newFinishDate = value;
     }
   } else if (name === "finishDate") {
-    setFinishDate(value);
+    newFinishDate = value;
   }
 
-  // Check if start date is earlier than finish date
-  if (new Date(startDate) >= new Date(finishDate)) {
-    console.error('Start date must be earlier than finish date');
+  // Prevent submission if start date is later than finish date
+  if (new Date(newStartDate) > new Date(newFinishDate)) {
+    console.error('Start date must be earlier than or equal to finish date');
     return; // Stop submission
   }
 
   // Calculate dates in range
-  const start = new Date(startDate);
-  const finish = new Date(finishDate);
+  const start = new Date(newStartDate);
+  const finish = new Date(newFinishDate);
   const datesInRange = [];
 
-  for (let currentDate = new Date(start); currentDate <= finish; currentDate.setDate(currentDate.getDate() + 1)) {
-    datesInRange.push(currentDate.toISOString().split('T')[0]);
+  if (start.getTime() === finish.getTime()) {
+    datesInRange.push(start.toISOString().split('T')[0]); // Only push start date if start and finish dates are the same
+  } else {
+    for (let currentDate = new Date(start); currentDate <= finish; currentDate.setDate(currentDate.getDate() + 1)) {
+      datesInRange.push(currentDate.toISOString().split('T')[0]);
+    }
   }
+  
+  console.log(datesInRange);
 
   // Update datesInRange state
+  setStartDate(newStartDate);
+  setFinishDate(newFinishDate);
   setDatesInRange(datesInRange);
 };
+
 
   // Function to handle form submission
   const handleSubmit = async (event) => {
