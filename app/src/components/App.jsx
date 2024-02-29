@@ -8,6 +8,8 @@ import Login from './Login.jsx'
 import Navbar from './Navbar.jsx' 
 import CreateUser from './CreateUser.jsx'
 import EditEmployee from './EditEmployee.jsx'
+import Home from './Home.jsx'
+import UserTimeSheet from './UserTimeSheet.jsx';
 import './Navbar.css'
 import ViewSingleJob from './ViewSingleJob.jsx';
 import AdminJoblist from './AdminJoblist.jsx';
@@ -47,6 +49,7 @@ function App() {
           {isLoggedIn && (
              <>
              <Route path="/" element={<Navigate to="/calendar" />} />
+             <Route path="/Home" element={<Home />} />
              <Route path="/calendar" element={<Calendar jwtToken={localStorage.getItem('token')} />} />
              <Route path="/jobs/:id" element={<ViewSingleJob />} />
              <Route path="/newjob" element={<NewJob />} />
@@ -55,6 +58,7 @@ function App() {
              {/* the above is breaking the admin route when {} and isAdmin removed it workes */}
              <Route path ="/Admin/Create" element={<CreateUser />} />
              <Route path ="/Edit/:id" element={<EditEmployee />} />
+             <Route path ="/timesheet/:id" element={<UserTimeSheet />} />
              <Route path ="/Admin/Jobs" element={<AdminJoblist />} />
              <Route path ="/EditJobs/:id" element={<EditJob />} />
 
