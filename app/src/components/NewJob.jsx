@@ -16,7 +16,7 @@ const NewJob = () => {
   const baseTools = ["General Items (wheelbarrow, shovel, rake, broom, grass bags)"]
   const [toolsRequired, setToolsRequired] = useState(baseTools);
 
-  // Task options
+  
   const tasksArr = ["Mowing", "Trimming/Tidying", "Plant Installation", "Decorating"];
 
   // Function to handle task selection
@@ -249,7 +249,6 @@ const handleDate = (e) => {
           <ul>
             {selectedEmployees.map((employeeId, index) => (
               <li key={index}>{users.find(user => user._id === employeeId)?.name}<span role="img" aria-label="green check mark" style={{ color: 'green', marginLeft: '0.5rem' }}>
-              ✔️
             </span></li>
             ))}
           </ul>
