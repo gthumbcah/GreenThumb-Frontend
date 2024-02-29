@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './NewJob.css'
 
 const NewJob = () => {
   // State for form fields

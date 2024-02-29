@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { API_BASE_URL } from '../components/api/endpoints.js'; // Import API_BASE_URL
+import { API_BASE_URL } from '../components/api/endpoints.js'; 
+import logo from '../assets/logo.png';
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -48,7 +49,8 @@ const Login = ({ onLogin }) => {
 
   return (
     <div className="login-page">
-      <div className="form-group">
+      <img src ={logo} alt='logo'/>
+            <div className="form-group">
         <label htmlFor="username">Username:</label>
         <input
           type="text"
