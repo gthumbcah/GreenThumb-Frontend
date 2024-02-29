@@ -54,7 +54,7 @@ const CreateUser = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <label>Email Adress:
+                <label>Email Address:
                     <input 
                     type="text" 
                     value={employeeEmail} 
