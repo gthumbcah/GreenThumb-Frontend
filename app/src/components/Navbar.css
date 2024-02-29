@@ -21,8 +21,9 @@
 
 /* Change link color on hover */
 .topnav a:hover {
-  background-color: #ddd;
+  background-color: #dddddd;
   color: black; /* Change to the desired hover color */
+  transition: 0.5s;
 }
 
 /* Style the hamburger menu icon */
