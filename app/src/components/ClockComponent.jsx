@@ -1,9 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ClockComponent = () => {
   const [clockedIn, setClockedIn] = useState(false);
   const [clockInTime, setClockInTime] = useState(null);
-  const [clockOutTime, setClockOutTime] = useState(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
+
+  useEffect(() => {
+    // Start the timer when clocked in
+    if (clockedIn) {
+      const timer = setInterval(() => {
+        // Calculate elapsed time since clock-in
+        const currentTime = new Date().getTime();
+        const startTime = new Date(clockInTime).getTime();
+        const elapsed = currentTime - startTime;
+        setElapsedTime(elapsed);
+      }, 1000); // Update every second
+
+      return () => {
+        // Clean up timer when component unmounts or when clocked out
+        clearInterval(timer);
+      };
+    }
+  }, [clockedIn, clockInTime]);
 
   const handleClockIn = () => {
     const currentTime = new Date().toISOString();
@@ -15,7 +33,8 @@ const ClockComponent = () => {
 
   const handleClockOut = () => {
     const currentTime = new Date().toISOString();
-    setClockOutTime(currentTime);
+    setClockInTime(null); // Reset clock-in time
+    setElapsedTime(0); // Reset elapsed time
     setClockedIn(false);
     // Store clock-out time locally
     localStorage.setItem('clockOutTime', currentTime);
@@ -41,10 +60,20 @@ const ClockComponent = () => {
     console.log('Time difference:', timeDifference);
   };
 
+  const formatElapsedTime = (elapsed) => {
+    const hours = Math.floor(elapsed / (1000 * 60 * 60));
+    const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+
   return (
     <div>
       {clockedIn ? (
-        <button onClick={handleClockOut}>Clock Out</button>
+        <div>
+          <p>Time elapsed: {formatElapsedTime(elapsedTime)}</p>
+          <button onClick={handleClockOut}>Clock Out</button>
+        </div>
       ) : (
         <button onClick={handleClockIn}>Clock In</button>
       )}
