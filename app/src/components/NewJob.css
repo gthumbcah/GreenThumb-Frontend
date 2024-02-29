@@ -39,3 +39,20 @@ form {
   button[type="button"]:hover {
     background-color: #555; /* Change background color on hover */
   }
+
+  h2 {
+    padding : 60px
+  }
+
+
+  ul {
+    list-style: none;
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .green-check {
+    color: green;
+    text-align: center;
+  }
+  

@@ -36,7 +36,6 @@ function App() {
 
   return (
     <>
-      <h1>Green Thumb Landscaping</h1>
       <BrowserRouter>
         <Routes>
           {/* Render login page if user is not authenticated */}
