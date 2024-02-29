@@ -115,18 +115,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #003507;
-    background-color: #ffeaea;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #dbffdc;
-  }
-}
 
 /* modal overlay -----------------------------------------------------------  */
 
@@ -151,4 +139,30 @@ button:focus-visible {
 
 .modal p {
   margin-bottom: 10px;
+}
+
+
+
+/* ----------------------------------------Media Queries--------------------------------------------------- */
+
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 2.5em;
+  }
+  h2 {
+    font-size: 1.8em;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #003507;
+    background-color: #ffeaea;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #dbffdc;
+  }
 }

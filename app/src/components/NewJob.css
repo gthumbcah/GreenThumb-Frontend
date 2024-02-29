@@ -1,0 +1,41 @@
+form {
+    max-width: 500px; /* Adjust the maximum width of the form */
+    margin: 0 auto; /* Center the form horizontally */
+  }
+  
+  input[type="text"],
+  input[type="date"],
+  select {
+    width: 100%; /* Make input fields and select elements full width */
+    padding: 10px; /* Add padding to input fields and select elements */
+    margin-bottom: 15px; /* Add margin between form elements */
+    border: 1px solid #ccc; /* Add border to form elements */
+    border-radius: 5px; /* Add border radius to form elements */
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
+  }
+  
+  select {
+    appearance: none; /* Remove default select arrow */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23333' viewBox='0 0 20 20'%3E%3Cpath d='M6 9l4 4 4-4'/%3E%3C/svg%3E"); /* Add custom arrow */
+    background-repeat: no-repeat; /* Ensure background image is not repeated */
+    background-position: right 10px center; /* Adjust background position */
+    background-size: 12px; /* Adjust background size */
+    padding-right: 30px; /* Add padding for the custom arrow */
+  }
+  
+  /* Style form buttons */
+  button[type="submit"],
+  button[type="button"] {
+    background-color: #333; /* Set background color */
+    color: white; /* Set text color */
+    border: none; /* Remove border */
+    padding: 10px 20px; /* Add padding */
+    border-radius: 5px; /* Add border radius */
+    cursor: pointer; /* Add cursor pointer */
+    transition: background-color 0.3s; /* Add transition */
+  }
+  
+  button[type="submit"]:hover,
+  button[type="button"]:hover {
+    background-color: #555; /* Change background color on hover */
+  }
