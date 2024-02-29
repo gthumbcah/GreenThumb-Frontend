@@ -62,9 +62,11 @@ const Admin = () => {
             </button>
           </div>
           <div>
+            <button>
             <Link to="/Admin/Jobs" className="button">
               Jobs List
             </Link>
+            </button>
           </div>
         </>
       ) : (
