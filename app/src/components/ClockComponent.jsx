@@ -3,7 +3,7 @@ import { clockIn, clockOut } from './api/ClockAPI';
 
 const ClockComponent = ({ jwtToken }) => {
   const [clockedIn, setClockedIn] = useState(false);
-  const [jwtToken] = useState(localStorage.getItem('token')); // Assuming you're storing JWT token in localStorage
+  const [jwtToken] = useState(localStorage.getItem('token')); 
 
   const handleClockIn = async () => {
       try {
