@@ -5,6 +5,7 @@ form {
   
   input[type="text"],
   input[type="date"],
+  
   select {
     width: 100%; /* Make input fields and select elements full width */
     padding: 10px; /* Add padding to input fields and select elements */
@@ -41,7 +42,7 @@ form {
   }
 
   h2 {
-    padding : 60px
+    padding-top: 100px;
   }
 
 
@@ -56,3 +57,19 @@ form {
     text-align: center;
   }
   
+  label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Styling for specific labels */
+  .label-unique {
+    color: rgb(15, 12, 216);
+    font-style: italic;
+  }
+  
+  /* Styling for labels inside a specific container */
+  .container-labels label {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
