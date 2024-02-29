@@ -1,0 +1,34 @@
+.employee-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Style for each employee item */
+  .employee-item {
+    margin-bottom: 10px;
+  }
+  
+  /* Style for the buttons container */
+  .buttons-container {
+    margin-top: 20px;
+    color: white;
+  }
+  
+  /* Style for the buttons */
+  .button {
+    margin-right: 10px;
+  }
+
+  .employee-list a {
+    color: black; /* Set default text color to black */
+    text-decoration: none; /* Remove underline */
+  }
+  
+  .employee-list a:hover {
+    color: rgb(27, 155, 10); /* Change text color to green on hover */
+    transition: 0.3s;
+    text-decoration: underline;
+    
+    
+  }

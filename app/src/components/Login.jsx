@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Login.css'
 import { API_BASE_URL } from '../components/api/endpoints.js'; 
 import logo from '../assets/logo.png';
 
@@ -49,6 +50,7 @@ const Login = ({ onLogin }) => {
 
   return (
     <div className="login-page">
+      <h1>Green Thumb Landscaping</h1>
       <img src ={logo} alt='logo'/>
             <div className="form-group">
         <label htmlFor="username">Username:</label>

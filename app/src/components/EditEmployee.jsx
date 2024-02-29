@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { API_BASE_URL } from './api/endpoints'
 import { useParams } from 'react-router-dom'
 import Confirm from  './Confirm.jsx'
+import './EditEmployee.css'
 
 const editUser = () => {
 

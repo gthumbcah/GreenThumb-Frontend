@@ -12,6 +12,8 @@ import Home from './Home.jsx'
 import UserTimeSheet from './UserTimeSheet.jsx';
 import './Navbar.css'
 import ViewSingleJob from './ViewSingleJob.jsx';
+import AdminJoblist from './AdminJoblist.jsx';
+import EditJob from './EditJob.jsx';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,7 +41,6 @@ function App() {
 
   return (
     <>
-      <h1>Green Thumb Landscaping</h1>
       <BrowserRouter>
         <Routes>
           {/* Render login page if user is not authenticated */}
@@ -58,6 +59,10 @@ function App() {
              <Route path ="/Admin/Create" element={<CreateUser />} />
              <Route path ="/Edit/:id" element={<EditEmployee />} />
              <Route path ="/timesheet/:id" element={<UserTimeSheet />} />
+             <Route path ="/Admin/Jobs" element={<AdminJoblist />} />
+             <Route path ="/EditJobs/:id" element={<EditJob />} />
+
+
            </>
           )}
         </Routes>

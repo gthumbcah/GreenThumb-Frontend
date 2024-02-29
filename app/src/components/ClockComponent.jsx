@@ -55,8 +55,7 @@ const ClockComponent = () => {
   };
 
   const submitTimeDifference = (timeDifference) => {
-    // Submit time difference to backend
-    // Replace this with your backend API call
+
     console.log('Time difference:', timeDifference);
   };
 

@@ -248,7 +248,9 @@ const handleDate = (e) => {
           <h3>Selected Employees:</h3>
           <ul>
             {selectedEmployees.map((employeeId, index) => (
-              <li key={index}>{users.find(user => user._id === employeeId)?.name}</li>
+              <li key={index}>{users.find(user => user._id === employeeId)?.name}<span role="img" aria-label="green check mark" style={{ color: 'green', marginLeft: '0.5rem' }}>
+              ✔️
+            </span></li>
             ))}
           </ul>
         </div>
@@ -282,6 +284,6 @@ const handleDate = (e) => {
   );
 };
 
-export default NewJob;
+export default NewJob ;
 
 

@@ -1,0 +1,36 @@
+.form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Style for the buttons */
+  .button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4caf50; /* Green background */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+  }
+  
+  .button:hover {
+    background-color: #009207; /* Darker green background on hover */
+  }
+
+  #password {
+    width: calc(100% - 20px);
+  }
