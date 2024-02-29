@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import ClockComponent from './ClockComponent';
+import { API_BASE_URL } from './api/endpoints';
 
 const MyCalendar = ({ jwtToken }) => {
   const [jobs, setJobs] = useState([]);
@@ -72,7 +73,7 @@ const MyCalendar = ({ jwtToken }) => {
           <ul>
             {jobsForSelectedDate.map((job, index) => (
               <li key={index}>
-                <Link to={`/job/${job.id}`}>{job.customerDetails[0]}</Link> - {`${job.dates.length} day job`}
+                <Link to={`/jobs/${job._id}`}>{job.customerDetails[0]}</Link> - {`${job.dates.length} day job`}
                 {<ClockComponent jwtToken={jwtToken} />}
               </li>
             ))}
