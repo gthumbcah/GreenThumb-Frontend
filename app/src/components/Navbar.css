@@ -7,9 +7,8 @@
   top: 0;
   left: 0;
   display: flex;
-  justify-content: space-between; /* Align logo and menu icon at opposite ends */
   align-items: center;
-  padding: 10px 20px; /* Add padding to the topnav */
+
 }
 
 /* Style navigation menu links */
@@ -30,6 +29,7 @@
 .menu-icon {
   display: none; /* Initially hide the menu icon */
   cursor: pointer;
+  right: auto;
 }
 
 .menu-icon.active .bar:nth-child(1) {
