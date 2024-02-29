@@ -62,8 +62,9 @@ const Admin = () => {
             </button>
           </div>
           <div>
-            <button className='button' type="Link">
-              <Link> to {'/Admin/Jobs'}</Link> Jobs List</button>
+            <Link to="/Admin/Jobs" className="button">
+              Jobs List
+            </Link>
           </div>
         </>
       ) : (
