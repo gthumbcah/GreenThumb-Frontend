@@ -70,7 +70,7 @@ const handleDelete = async (id) => {
                     </ul>
                     <p>
                         {/* Use Link to navigate to EditJob component with job ID */}
-                        <button><Link to={`/jobs/${job._id}`}>Edit</Link></button>
+                        <button><Link to={`/Editjobs/${job._id}`}>Edit</Link></button>
                         <button onClick={() => handleDelete(job._id)}>Delete</button>
                     </p>
                 </div>

@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
-import './NewJob.css';
+import { useParams } from 'react-router-dom';
 
 const EditJob = () => {
     const { id } = useParams();
-    const history = useHistory();
-
-    const [customerName, setCustomerName] = useState("");
-    const [customerMobile, setCustomerMobile] = useState("");
-    const [jobAddress, setJobAddress] = useState("");
-    const [chosenTask, setChosenTask] = useState(""); 
-    const [users, setUsers] = useState([]);
-    const [chosenUsers, setChosenUsers] = useState([]);
-    const [startDate, setStartDate] = useState("");
-    const [finishDate, setFinishDate] = useState("");
-    const [selectedEmployees, setSelectedEmployees] = useState([]);
-    const baseTools = ["General Items (wheelbarrow, shovel, rake, broom, grass bags)"]
-    const [toolsRequired, setToolsRequired] = useState(baseTools);
-
-    const tasksArr = ["Mowing", "Trimming/Tidying", "Plant Installation", "Decorating"];
+    const [jobData, setJobData] = useState({
+        _id: "",
+        customerName: "",
+        customerMobile: "",
+        jobAddress: "",
+        chosenTask: "",
+        users: [],
+        startDate: "",
+        finishDate: "",
+        selectedEmployees: [],
+        toolsRequired: []
+    });
 
     useEffect(() => {
         const fetchJobData = async () => {
@@ -32,15 +28,7 @@ const EditJob = () => {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    const [customerName, customerMobile, jobAddress] = data.customerDetails;
-                    setCustomerName(customerName);
-                    setCustomerMobile(customerMobile);
-                    setJobAddress(jobAddress);
-                    setChosenTask(data.tasks[0]);
-                    setToolsRequired(data.toolsNeeded);
-                    setSelectedEmployees(data.users);
-                    setStartDate(data.dates[0]);
-                    setFinishDate(data.dates[data.dates.length - 1]);
+                    setJobData(data);
                 } else {
                     console.log('Failed to fetch job data');
                 }
@@ -52,66 +40,80 @@ const EditJob = () => {
         fetchJobData();
     }, [id]);
 
-    const handleTaskChange = (e) => {
-        const selectedTask = e.target.value;
-        setChosenTask(selectedTask);
-
-        switch (selectedTask) {
-            case "Mowing":
-                setToolsRequired([...baseTools,"Lawnmower", "Whippersnipper"]);
-                break;
-            case "Trimming/Tidying":
-                setToolsRequired([...baseTools,"Hedgetrimmer", "Handshearers"]);
-                break;
-            case "Plant Installation":
-                setToolsRequired([...baseTools,"Trowel", "String", "Flowers"]);
-                break;
-            case "Decorating":
-                setToolsRequired([...baseTools,"Decorations", "Statues", "Buggy"]);
-                break;
-            default :
-                setToolsRequired(baseTools);
-                break;
-        }
-    };
-
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const jobData = {
-            customerDetails: [customerName, customerMobile, jobAddress],
-            tasks: [chosenTask],
-            toolsNeeded: toolsRequired,
-            users: selectedEmployees,
-            dates: [startDate, finishDate], 
-            jobActive: true
-        };
         try {
             const token = localStorage.getItem('token');
             const response = await fetch(`https://greenthumb-backend.onrender.com/jobs/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    Accept: "application/json",
-                    Authorization: `Bearer ${token}`
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(jobData),
             });
 
             if (response.ok) {
                 console.log('Job updated successfully');
-                history.push('/admin/joblist');
             } else {
                 console.log('Error response:', response);
             }
         } catch (error) {
             console.error('Error updating job:', error);
-            if (error.response) {
-                const responseBody = await error.response.json();
-                console.error('Response body:', responseBody);
-            }
         }
     };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setJobData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
+
+    const handleSelectedEmployeesChange = (e) => {
+        const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
+        setJobData(prevData => ({
+            ...prevData,
+            selectedEmployees: selectedOptions
+        }));
+    };
+
+    const handleToolsRequiredChange = (e) => {
+        const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
+        setJobData(prevData => ({
+            ...prevData,
+            toolsRequired: selectedOptions
+        }));
+    };
+
+    const fetchUsers = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('https://greenthumb-backend.onrender.com/users', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setJobData(prevData => ({
+                    ...prevData,
+                    users: data
+                }));
+            } else {
+                console.log('Failed to find users');
+            }
+        } catch (error) {
+            console.error('Error finding users:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchUsers();
+    }, []);
 
     return (
         <div>
@@ -121,8 +123,9 @@ const EditJob = () => {
                     Customers Name:
                     <input 
                         type="text" 
-                        value={customerName} 
-                        onChange={(e) => setCustomerName(e.target.value)} 
+                        name="customerName" 
+                        value={jobData.customerDetails[0]} 
+                        onChange={handleChange} 
                         required 
                     />
                 </label>
@@ -130,8 +133,9 @@ const EditJob = () => {
                     Customers Mobile:
                     <input 
                         type="text" 
-                        value={customerMobile} 
-                        onChange={(e) => setCustomerMobile(e.target.value)} 
+                        name="customerMobile" 
+                        value={jobData.customerDetails[1]} 
+                        onChange={handleChange} 
                         required 
                     />
                 </label>
@@ -139,53 +143,67 @@ const EditJob = () => {
                     Job Address:
                     <input 
                         type="text" 
-                        value={jobAddress} 
-                        onChange={(e) => setJobAddress(e.target.value)} 
+                        name="jobAddress" 
+                        value={jobData.customerDetails[2]}  
+                        onChange={handleChange} 
                         required 
                     />
                 </label>
-                <br />
                 <label>
-                    Tasks:
+                    Selected Task:
                     <select 
-                        value={chosenTask} 
-                        onChange={handleTaskChange} 
+                        name="chosenTask" 
+                        value={jobData.tasks} 
+                        onChange={handleChange} 
                         required
                     >
                         <option value="">Select a task</option>
-                        {tasksArr.map(task => (
-                            <option key={task} value={task}>{task}</option>
+                        {/* Map through tasksArr to create options */}
+                    </select>
+                </label>
+                <label>
+                    Tools Required:
+                    <select 
+                        name="toolsRequired" 
+                        value={jobData.toolsRequired} 
+                        onChange={handleToolsRequiredChange} 
+                        multiple
+                    >
+                        {/* Map through toolsArr to create options */}
+                    </select>
+                </label>
+                <label>
+                    Selected Employees:
+                    <select 
+                        name="selectedEmployees" 
+                        value={jobData.selectedEmployees} 
+                        onChange={handleSelectedEmployeesChange} 
+                        multiple
+                    >
+                        {jobData.users.filter(user => !user.admin).map((user, index) => (
+                            <option key={index} value={user._id}>{user.name}</option>
                         ))}
                     </select>
                 </label>
-                <br />
-                <label>
-                    Tools Required:
-                    <ul>
-                        {toolsRequired.map(tool => (
-                            <li key={tool}>{tool}</li>
-                        ))}
-                    </ul>
-                </label>
-                <br />
                 <label>
                     Start Date:
                     <input 
-                        type="date"
-                        value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
+                        type="date" 
+                        name="startDate" 
+                        value={jobData.startDate} 
+                        onChange={handleChange} 
                         required 
                     />
                 </label>
                 <label>
                     Finish Date:
                     <input 
-                        type="date"
-                        value={finishDate}
-                        onChange={(e) => setFinishDate(e.target.value)}
+                        type="date" 
+                        name="finishDate" 
+                        value={jobData.finishDate} 
+                        onChange={handleChange} 
                     />
                 </label>
-                <br />
                 <button type="submit">Submit</button>
             </form>
         </div>
@@ -193,6 +211,9 @@ const EditJob = () => {
 };
 
 export default EditJob;
+
+
+
 
 
 

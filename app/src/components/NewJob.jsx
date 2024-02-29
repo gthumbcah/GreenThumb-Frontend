@@ -284,6 +284,6 @@ const handleDate = (e) => {
   );
 };
 
-export default NewJob;
+export default NewJob ;
 
 
