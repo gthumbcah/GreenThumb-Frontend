@@ -2,29 +2,35 @@ import React, { useState } from 'react';
 import { clockIn, clockOut } from './api/ClockAPI';
 
 const ClockComponent = ({ jwtToken }) => {
-  const [isClockedIn, setIsClockedIn] = useState(false);
+  const [clockedIn, setClockedIn] = useState(false);
+  const [jwtToken] = useState(localStorage.getItem('token')); // Assuming you're storing JWT token in localStorage
 
-  const handleClockInOut = async () => {
-    try {
-      if (isClockedIn) {
-        // Clock out
-        await clockOut(jwtToken);
-      } else {
-        // Clock in
-        await clockIn(jwtToken);
+  const handleClockIn = async () => {
+      try {
+          await clockIn(jwtToken);
+          setClockedIn(true);
+      } catch (error) {
+          console.error('Clock in error:', error);
       }
-      setIsClockedIn(!isClockedIn);
-    } catch (error) {
-      console.error('Clock operation failed:', error);
-    }
+  };
+
+  const handleClockOut = async () => {
+      try {
+          await clockOut(jwtToken);
+          setClockedIn(false);
+      } catch (error) {
+          console.error('Clock out error:', error);
+      }
   };
 
   return (
-    <div>
-      <button onClick={handleClockInOut}>
-        {isClockedIn ? 'Clock Out' : 'Clock In'}
-      </button>
-    </div>
+      <div>
+          {clockedIn ? (
+              <button onClick={handleClockOut}>Clock Out</button>
+          ) : (
+              <button onClick={handleClockIn}>Clock In</button>
+          )}
+      </div>
   );
 };
 
