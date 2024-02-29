@@ -61,6 +61,10 @@ const Admin = () => {
               Delete Employee
             </button>
           </div>
+          <div>
+            <button className='button' type="Link">
+              <Link> to {'/Admin/Jobs'}</Link> Jobs List</button>
+          </div>
         </>
       ) : (
         <>
