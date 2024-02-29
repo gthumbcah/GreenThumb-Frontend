@@ -5,9 +5,10 @@ import Calendar from './Calendar.jsx';
 import Admin from './Admin.jsx'
 import NewJob from './NewJob.jsx'
 import Login from './Login.jsx'
-import Navbar from './Navbar.jsx' // Import Navbar component
+import Navbar from './Navbar.jsx' 
 import CreateUser from './CreateUser.jsx'
 import EditEmployee from './EditEmployee.jsx'
+import './Navbar.css'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
