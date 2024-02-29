@@ -11,6 +11,7 @@ import EditEmployee from './EditEmployee.jsx'
 import './Navbar.css'
 import ViewSingleJob from './ViewSingleJob.jsx';
 
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
