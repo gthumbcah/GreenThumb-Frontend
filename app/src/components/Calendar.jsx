@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import ClockComponent from './ClockComponent';
-import { API_BASE_URL } from './api/endpoints';
 
 const MyCalendar = ({ jwtToken }) => {
   const [jobs, setJobs] = useState([]);
@@ -22,7 +21,6 @@ const MyCalendar = ({ jwtToken }) => {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setJobs(data);
         } else {
           console.log('Failed to find jobs');
@@ -35,20 +33,31 @@ const MyCalendar = ({ jwtToken }) => {
     fetchData();
   }, []);
 
+  // const tileContent = ({ date }) => {
+  //   console.log('Calenadar: ' + date + 'Type: ' + typeof(date));
+  //   const hasJobOnDate = jobs.some(job => job.dates.includes(date.toISOString().split('T')[0]));
+  //   return hasJobOnDate && <div style={{ backgroundColor: 'red', borderRadius: '50%', height: '0.75rem', width: '0.75rem' , marginLeft:'0.75rem'}}></div>;
+  // };
 
   const tileContent = ({ date }) => {
-    console.log(date);
-    const hasJobOnDate = jobs.some(job => job.dates.includes(date));
-    return hasJobOnDate && <div style={{ backgroundColor: 'red', borderRadius: '50%', height: '0.75rem', width: '0.75rem' , marginLeft:'0.75rem'}}></div>;
+    // formats calendar date as 'YYYY-MM-DD' to match with DB date format
+    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  
+    // Check if any job date matches the formatted date
+    const hasJobOnDate = jobs.some(job => job.dates.includes(formattedDate));
+    
+    // Return red dot if there's a job on the date
+    return hasJobOnDate && <div style={{ backgroundColor: 'red', borderRadius: '50%', height: '0.75rem', width: '0.75rem', marginLeft:'0.75rem'}}></div>;
   };
 
   const handleClickDay = (date) => {
+    console.log("Selected date:", date);
     setSelectedDate(date);
-    const formattedDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+    // formats agin , so can match agin for the list of dates
+    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     const jobsOnSelectedDate = jobs.filter(job => job.dates.includes(formattedDate));
     setJobsForSelectedDate(jobsOnSelectedDate);
-};
-
+  };
 
   return (
     <div className="calendar-container">
@@ -63,7 +72,7 @@ const MyCalendar = ({ jwtToken }) => {
           <ul>
             {jobsForSelectedDate.map((job, index) => (
               <li key={index}>
-                <Link to={`${API_BASE_URL}/jobs/${job._id}`}>{job.customerDetails[0]}</Link> - {`${job.dates.length} day job`}
+                <Link to={`/job/${job.id}`}>{job.customerDetails[0]}</Link> - {`${job.dates.length} day job`}
                 {<ClockComponent jwtToken={jwtToken} />}
               </li>
             ))}
@@ -75,5 +84,4 @@ const MyCalendar = ({ jwtToken }) => {
 };
 
 export default MyCalendar;
-
 
