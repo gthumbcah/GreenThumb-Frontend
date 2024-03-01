@@ -19,7 +19,7 @@ const Navbar = ({ onLogout }) => {
         <div className="bar"></div>
       </div>
       <div className={`links ${showMenu ? 'active' : ''}`}>
-        <Link to="/Home">Home</Link>
+        <Link to="/TimeSheet">TimeSheet</Link>
         <Link to="/Calendar">Calendar</Link>
         <Link to="/NewJob">New Job</Link>
         <Link to="/Admin">Admin</Link>
