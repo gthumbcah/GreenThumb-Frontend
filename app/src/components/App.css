@@ -141,19 +141,7 @@ button:focus-visible {
   margin-bottom: 10px;
 }
 
-@media print {
-  body * {
-    visibility: hidden;
-  }
-  #print-content, #print-content * {
-    visibility: visible;
-  }
-  #print-content {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-}
+
 
 /* ----------------------------------------Media Queries--------------------------------------------------- */
 
@@ -183,3 +171,4 @@ button:focus-visible {
 Link {
   color: rgb(46, 161, 0);
 }
+
