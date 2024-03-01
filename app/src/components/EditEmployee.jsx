@@ -60,13 +60,17 @@ const editUser = () => {
                     <input 
                     type="text" 
                     value={updatedEm.name}
-                    onChange={(e) => setUpdatedEm({ ...updatedEm, name: e.target.value })}/>
+                    onChange={(e) => setUpdatedEm({ ...updatedEm, name: e.target.value })}
+                    data-testid="name-input"
+                    />
                 </label><br></br>
                 <label>{employee.email}:
                     <input 
                     type="text" 
                     value={updatedEm.email}
-                    onChange={(e) => setUpdatedEm({ ...updatedEm, email: e.target.value })}/>
+                    onChange={(e) => setUpdatedEm({ ...updatedEm, email: e.target.value })}
+                    data-testid= "email-input"
+                    />
                 </label><br></br>
                 <label>password:
                     <input type="text" 

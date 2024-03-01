@@ -30,19 +30,22 @@ global.localStorage = localStorageMock
 
 describe("EditEmployee", () => {
   it("should render EditEmployee page", () => {
-    const { getByText } = render((<BrowserRouter><EditEmployee /></BrowserRouter>));
+    const {getByLabelText, getByText, getByTestId} = render((<BrowserRouter><EditEmployee /></BrowserRouter>));
+
+    expect(() => getByText('Update Account Details')).not.toThrow()
+
+    const editEmPassword = getByLabelText('password:');
+    fireEvent.change(editEmPassword, { target: { value: 'testingpassword' } });
+    expect(editEmPassword.value).toBe('testingpassword');
+
+    const editEmName = getByTestId('name-input');
+    fireEvent.change(editEmName, {target: {value: "Marc Smith"}})
+    expect(editEmName.value).toBe('Marc Smith')
+
+    const editEmEmail = getByTestId('email-input');
+    fireEvent.change(editEmEmail, {target: {value: "marc@gmail.com"}})
+    expect(editEmEmail.value).toBe('marc@gmail.com')
+
   });
-
-
-
-
-  
-
-  // it("should update the password field correctly", () => {
-  //   const { getByLabelText } = render((<BrowserRouter><EditEmployee /></BrowserRouter>));
-  //   const passwordInput = getByLabelText('Job Address:');
-  //   fireEvent.change(passwordInput, { target: { value: '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8' } });
-  //   expect(passwordInput.value).toBe('5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8');
-  // });
 });
 
