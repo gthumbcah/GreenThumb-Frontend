@@ -1,26 +1,37 @@
+import { describe, test, expect } from 'vitest';
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import NewJob from '../NewJob';
-import { afterEach, describe, it, expect, vi } from 'vitest';
+import { JSDOM } from 'jsdom'; 
+
+// Setup JSDOM
+const dom = new JSDOM('<!doctype html><html><body></body></html>');
+global.document = dom.window.document;
+global.window = dom.window;
 
 describe('NewJob Component', () => {
-  afterEach(() => {
-    cleanup();
-  });
+  test('renders NewJob component', async () => {
+    const { getByText, getByLabelText, getByPlaceholderText } = render(<NewJob />);
 
-  it('renders NewJob component', () => {
-    const { getByText, getByLabelText, getByRole } = render(<NewJob />);
+    expect(() => getByText('New Job')).not.toThrow();
 
-    expect(getByText('New Job')).toBeInTheDocument();
 
-    fireEvent.change(getByLabelText('Customers Name'), { target: { value: 'John Doe' } });
-    fireEvent.change(getByLabelText('Customers Mobile'), { target: { value: '1234567890' } });
-    fireEvent.change(getByLabelText('Job Address'), { target: { value: '123 Main St' } });
+    const customersNameInput = getByLabelText('Customers Name:');
+    fireEvent.change(customersNameInput, { target: { value: 'John Doe' } });
+    expect(customersNameInput.value).toBe('John Doe');
 
-    expect(getByLabelText('Customers Name')).toHaveValue('John Doe');
-    expect(getByLabelText('Customers Mobile')).toHaveValue('1234567890');
-    expect(getByLabelText('Job Address')).toHaveValue('123 Main St');
+    const customersMobileInput = getByLabelText('Customers Mobile:');
+    fireEvent.change(customersMobileInput, { target: { value: '1234567890' } });
+    expect(customersMobileInput.value).toBe('1234567890');
 
-    fireEvent.click(getByRole('button', { name: 'Submit' }));
+    const jobAddressInput = getByLabelText('Job Address:');
+    fireEvent.change(jobAddressInput, { target: { value: '123 Main St' } });
+    expect(jobAddressInput.value).toBe('123 Main St');
+
+
+    const tasksSelect = getByLabelText('Tasks:');
+    fireEvent.change(tasksSelect, { target: { value: 'Mowing' } });
+    expect(tasksSelect.value).toBe('Mowing');
+
   });
 });

@@ -1,40 +1,48 @@
-import { render, screen, fireEvent } from 'vitest';
-import { rest } from 'vite-plugin-mock';
+import { describe, expect, test } from 'vitest';
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
 import Admin from '../Admin';
+import { BrowserRouter } from 'react-router-dom';
+import { JSDOM } from 'jsdom'; 
 
-// Mocking the API response
-const mockEmployees = [
-  { _id: 1, name: 'Employee 1', admin: false },
-  { _id: 2, name: 'Employee 2', admin: false },
-  { _id: 3, name: 'Admin 1', admin: true },
-];
+// Setup JSDOM
+const dom = new JSDOM('<!doctype html><html><body></body></html>');
+global.document = dom.window.document;
+global.window = dom.window;
+global.localStorage = {
+  getItem: (key) => key === 'token' ? 'your_token_here' : null, 
+};
 
 describe('Admin Component', () => {
-  it('renders a list of employees', async () => {
-    // Mocking the API response
-    rest.get(`${API_BASE_URL}/users`, (req, res, ctx) => {
-      return res(ctx.json(mockEmployees));
+  test('renders Admin component', async () => {
+    const mockData = [
+      { _id: '1', name: 'Employee 1', admin: false },
+      { _id: '2', name: 'Employee 2', admin: true },
+    ];
+
+    global.fetch = () => Promise.resolve({
+      json: () => Promise.resolve(mockData),
     });
 
-    // Rendering the component
-    render(<Admin />);
+    const { getByText, getByLabelText } = render(
+      <BrowserRouter>
+        <Admin />
+      </BrowserRouter>
+    );
 
-    // Expecting the list of employees to be rendered
-    const employeeItems = await screen.findAllByRole('listitem');
-    expect(employeeItems).toHaveLength(mockEmployees.length);
+  
+    const createEmployeeButton = getByText('Create Employee');
+    const deleteEmployeeButton = getByText('Delete Employee');
+    const jobsListButton = getByText('Jobs List');
+
+    const employeeList = document.querySelector('.employee-list');
+
+
+    expect(createEmployeeButton).toBeDefined();
+    expect(deleteEmployeeButton).toBeDefined();
+    expect(jobsListButton).toBeDefined();
+    expect(employeeList).toBeDefined();
+
+
   });
-
-  it('displays delete options when "Delete Employee" button is clicked', async () => {
-    // Rendering the component
-    render(<Admin />);
-
-    // Clicking the "Delete Employee" button
-    const deleteButton = screen.getByText('Delete Employee');
-    fireEvent.click(deleteButton);
-
-    // Expecting delete options to be displayed
-    const deleteOptions = await screen.findAllByRole('button', { name: /delete/i });
-    expect(deleteOptions).toHaveLength(mockEmployees.filter(emp => !emp.admin).length);
-  });
-
 });

@@ -47,10 +47,10 @@ const Admin = () => {
       {!deleteOpt ? (
         <>
           <ul className="employee-list">
-            {employees.map((employee, index) => (
+            {Array.isArray(employees) && employees.map((employee, index) => (
               <li className="employee-item" key={index}>
                 <Link to={`/edit/${employee._id}`}>{employee.name}</Link>
-              </li>
+             </li>
             ))}
           </ul>
           <div className="buttons-container">
