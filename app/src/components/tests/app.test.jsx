@@ -1,10 +1,9 @@
 // App.test.js
 import '@testing-library/jest-dom';
 import React from 'react';
-import expect from 'expect'
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import {describe, it} from 'vitest'
+import {describe, it, expect} from 'vitest'
 import App from '../components/App';
 import Calendar from '../components/Calendar';
 import MyCalendar from '../components/MyCalendar';
