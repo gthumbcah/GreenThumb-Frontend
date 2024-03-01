@@ -13,12 +13,12 @@
 
 a {
   font-weight: 500;
-  color: #ffffff;
+  color: #000000;
   text-decoration: inherit;
 }
 
 a:hover {
-  color: #ffffff;
+  color: #1100ff;
 }
 
 body {
@@ -165,4 +165,9 @@ button:focus-visible {
   button {
     background-color: #dbffdc;
   }
+}
+
+
+Link {
+  color: rgb(46, 161, 0);
 }
