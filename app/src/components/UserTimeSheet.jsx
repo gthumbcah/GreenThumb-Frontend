@@ -22,10 +22,10 @@ const UserTimeSheet = () => {
   },[])
 
   return (
-    <>        
+    <>      
         <div id="print-content">
             {timeSheet.map((entry, index) => (
-                <p key={index}>{entry.total}</p>
+                <p key={index}>{entry.total} {entry.clockIn}</p>
             ))}
         </div>
         <button onClick={() => window.print()} className="print">Print</button>
