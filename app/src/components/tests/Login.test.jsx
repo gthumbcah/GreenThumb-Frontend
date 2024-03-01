@@ -10,7 +10,7 @@ global.document = dom.window.document;
 global.window = dom.window;
 Object.defineProperty(global.window, 'navigator', {
   value: {
-    userAgent: 'node.js', // Set any required properties
+    userAgent: 'node.js', 
   },
 });
 
