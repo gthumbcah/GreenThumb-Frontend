@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { API_BASE_URL } from './api/endpoints.js'
 import { Link } from 'react-router-dom'
 
-const Home = () => {
+const TimeSheet = () => {
 
   const [employees, setEmployees] = useState([])
 
@@ -21,9 +21,9 @@ const Home = () => {
   
   return (
     <>
-      <ul>
+      <ul className="employee-list" >
         {employees.map((employee, index) => (
-          <ul key={index}>
+          <ul className="employee-item" key={index}>
             <Link to={`/timesheet/${employee._id}`} >{employee.name}</Link>            
           </ul>
         ))}
@@ -32,4 +32,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default TimeSheet
