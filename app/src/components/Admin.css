@@ -1,32 +1,33 @@
+/* General Styling for the Admin page */
 .employee-list {
     list-style-type: none;
     padding: 0;
     margin: 0;
   }
   
-  /* Style for each employee item */
+
   .employee-item {
     margin-bottom: 10px;
   }
   
-  /* Style for the buttons container */
+
   .buttons-container {
     margin-top: 20px;
     color: rgb(255, 255, 255);
   }
   
-  /* Style for the buttons */
+ 
   .button {
     margin-right: 10px;
   }
 
   .employee-list a {
-    color: black; /* Set default text color to black */
-    text-decoration: none; /* Remove underline */
+    color: black; 
+    text-decoration: none; 
   }
   
   .employee-list a:hover {
-    color: rgb(27, 155, 10); /* Change text color to green on hover */
+    color: rgb(27, 155, 10); 
     transition: 0.3s;
     text-decoration: underline;
     

@@ -5,7 +5,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    background-color: rgba(0, 0, 0, 0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,7 +16,7 @@
     background-color: white;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
   }
   
   /* Style for the buttons container */
@@ -26,18 +26,18 @@
     margin-top: 20px;
   }
   
-  /* Style for the buttons */
+
   .button {
     margin: 0 10px;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #4caf50; /* Green background */
+    background-color: #4caf50; 
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
   
   .button:hover {
-    background-color: #009207; /* Darker green background on hover */
+    background-color: #009207; 
   }
