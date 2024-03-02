@@ -61,7 +61,8 @@ const handleDelete = async (id) => {
             <h1>Admin Job List</h1>
             {jobs.map((job, index) => (
                 <div key={index}>
-                    <h2>Customer Name: {job.customerDetails && job.customerDetails[0]}</h2>
+                    <h2>Customer Name: {job.customerDetails && job.customerDetails[0]}
+                    </h2>
                     <h3>Workers on site:</h3>
                     <ul>
                         {job.users.map((user, index) => (
